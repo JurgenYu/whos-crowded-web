@@ -4,8 +4,8 @@ import './NavBar.css'
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles, createStyles, Theme, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { Redirect } from 'react-router-dom';
 
-const partierButtons = ['Home', 'Parties', 'Clubs', 'Djs', 'CROWDs'];
 
 const useAvtarStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -29,6 +29,10 @@ const buttonTheme = createMuiTheme({
     }
 })
 
+const buttonClickHandler = (buttonIndex: string) => {
+    return (<Redirect to={buttonIndex} />)
+}
+
 export default function NavBar() {
 
     const avtarClasses = useAvtarStyles();
@@ -38,16 +42,28 @@ export default function NavBar() {
             <div className='nav-bar-container'>
                 <div className="nav-bar-items">
                     <ul>
-                        <a href='./login' style={{textDecorationLine: 'none'}}>
-                        <Avatar className={avtarClasses.root}>Login</Avatar>
+                        <a href='./login' style={{ textDecorationLine: 'none' }}>
+                            <Avatar className={avtarClasses.root}>Login</Avatar>
                         </a>
-                        {partierButtons.map(each => (
+
+                        <ThemeProvider theme={buttonTheme}>
                             <li>
-                                <ThemeProvider theme={buttonTheme}>
-                                    <Button>{each}</Button>
-                                </ThemeProvider>
+                                <Button href='./'>Home</Button>
                             </li>
-                        ))}
+                            <li>
+                                <Button href='./'>Parties</Button>
+                            </li>
+                            <li>
+                                <Button href='./'>Clubs</Button>
+                            </li>
+                            <li>
+                                <Button href='./'>Djs</Button>
+                            </li>
+                            <li>
+                                <Button href='./'>CROWDs</Button>
+                            </li>
+                        </ThemeProvider>
+
                     </ul>
                 </div>
             </div>
