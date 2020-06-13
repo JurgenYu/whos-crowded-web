@@ -1,0 +1,28 @@
+.nav-bar-container {
+    padding-top: 2rem;
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+
+.nav-bar-items {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    list-style-type: none;
+    flex-wrap: wrap;
+    margin: auto;
+    margin-top: 1rem;
+}
+
+.nav-bar-container ul {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-bar-items li {
+    display: flex;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    flex-direction: column;
+}
