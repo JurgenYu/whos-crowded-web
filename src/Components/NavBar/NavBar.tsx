@@ -42,10 +42,11 @@ export default function NavBar() {
             <div className='nav-bar-container'>
                 <div className="nav-bar-items">
                     <ul>
-                        <a href='./login' style={{ textDecorationLine: 'none' }}>
-                            <Avatar className={avtarClasses.root}>Login</Avatar>
-                        </a>
-
+                        <li>
+                            <a href='./login' style={{ textDecorationLine: 'none' }}>
+                                <Avatar className={avtarClasses.root}>Login</Avatar>
+                            </a>
+                        </li>
                         <ThemeProvider theme={buttonTheme}>
                             <li>
                                 <Button href='./'>Home</Button>

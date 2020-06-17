@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 //Components
 import TabPanel from '../Components/TabPanel/TabPanel'
@@ -8,7 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid'
-import { makeStyles, Theme, createStyles, Paper } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, Paper, Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
     {
@@ -22,9 +22,20 @@ export default function Login() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
+    let [inputEmail, setInputEmail] = React.useState('');
+
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
     };
+
+    const updateInputEmail = (event:React.ChangeEvent<HTMLInputElement>) => {
+        setInputEmail(event.target.value);
+    }
+
+    const buttonClickHandler = (event:React.FormEvent) => {
+        event.preventDefault();
+        console.log(inputEmail);
+    }
 
     return (
         <React.Fragment>
@@ -41,10 +52,20 @@ export default function Login() {
                         <Tab label="Login with Facebook" />
                     </Tabs>
                     <TabPanel value={value} index={0}>
-                        <TextField
-                            id='emial'
-                            name='email'
-                            type='emial' />
+                        <form noValidate onSubmit={buttonClickHandler}>
+                            <TextField
+                                id="email"
+                                name="email"
+                                type="email"
+                                label="Email Address"
+                                helperText={'Something wrong'}
+                                value={inputEmail}
+                                onChange={updateInputEmail}
+                                fullWidth
+                            />
+
+                            <Button type='submit'>Login</Button>
+                        </form>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         Item Two
