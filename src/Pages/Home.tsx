@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 
 //components
 import NavBar from '../Components/NavBar/NavBar'
 
-export default function Home() {
+const Home:FunctionComponent = () => {
     return (
         <React.Fragment>
             <NavBar/>
         </React.Fragment>
     )
 }
+
+export default Home;
