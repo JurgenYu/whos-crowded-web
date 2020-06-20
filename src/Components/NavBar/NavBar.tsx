@@ -1,57 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './NavBar.css'
 
+import UserAvatar from '../UserAvatar/UserAvatar'
+
 import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import { makeStyles, createStyles, Theme, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { createMuiTheme, MuiThemeProvider, styled } from '@material-ui/core';
 
-
-const useAvtarStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            display: 'flex',
-            marginTop: '-0.8rem',
-            marginRight: '3rem',
-            width: theme.spacing(7),
-            height: theme.spacing(7),
-        },
-    }),
-);
-
-const buttonTheme = createMuiTheme({
-    overrides: {
-        MuiButton: {
-            text: {
-                color: 'white'
-            }
-        }
-    }
+const StyledButton = styled(Button)({
+    marginRight:'1.25rem',
+    marginLeft:'1.25rem'
 })
 
 export default function NavBar() {
 
-    const avtarClasses = useAvtarStyles();
+    const [redirect, setRedirect] = useState(false);
+    const [tarUrl, settarUrl] = useState('');
+
+    const handleClick = (target:string) => {
+        setRedirect(true);
+        settarUrl(target);
+
+        setTimeout(()=>{
+            setRedirect(false)
+            settarUrl('');
+        }, 50)
+    }
 
     return (
         <React.Fragment>
+            {redirect && <Redirect to={tarUrl}/>}
             <div className='nav-bar-container'>
+                <div className='nav-avatar'>
+                    <UserAvatar />
+                </div>
                 <div className="nav-bar-items">
-                        <div>
-                            <Link style={{textDecorationLine:'none'}} to='./login'>
-                                <Avatar className={avtarClasses.root}>Login</Avatar>
-                            </Link>
-
-                        </div>
-                        <ThemeProvider theme={buttonTheme}>
-                            <div>
-                                <Button component={Link} to='./'>Home</Button>
-                                <Button component={Link} to='./'>Parties</Button>
-                                <Button component={Link} to='./'>Clubs</Button>
-                                <Button component={Link} to='./'>Djs</Button>
-                                <Button component={Link} to='./'>CROWDs</Button>
-                            </div>
-                        </ThemeProvider>
+                        <StyledButton onClick={()=>handleClick('./')}>Home</StyledButton>
+                        <StyledButton onClick={()=>handleClick('./')}>Parties</StyledButton>
+                        <StyledButton onClick={()=>handleClick('./')}>Clubs</StyledButton>
+                        <StyledButton onClick={()=>handleClick('./')}>Djs</StyledButton>
+                        <StyledButton onClick={()=>handleClick('./')}>CROWDs</StyledButton>
                 </div>
             </div>
         </React.Fragment>

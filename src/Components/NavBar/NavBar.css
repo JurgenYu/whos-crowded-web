@@ -11,8 +11,16 @@
     justify-content: space-evenly;
     list-style-type: none;
     flex-wrap: wrap;
+    left: auto;
     margin: auto;
     margin-top: 1rem;
+}
+
+.nav-avatar {
+    position: absolute;
+    left: calc(50% - 23.5rem);
+    padding-top: 0.4rem;
+    margin: 0 auto;
 }
 
 .nav-bar-container ul {

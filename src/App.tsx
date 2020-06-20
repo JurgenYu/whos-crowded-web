@@ -5,23 +5,27 @@ import './App.css';
 //Pages
 import Home from './Pages/Home';
 import Login from './Pages/Login';
+import theme from './Util/theme'
+import { MuiThemeProvider } from '@material-ui/core';
 
 function App() {
   return (
     <React.Fragment>
-      <div style={{backgroundColor:'gray', height: '100vh'}}>
-      <BrowserRouter>
-        <Switch>
-          <Route path='/' exact>
-            <Home/>
-          </Route>
-          <Route path='/login'>
-            <Login/>
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      <MuiThemeProvider theme={theme}>
+        <div style={{ backgroundColor: 'gray', height: '100vh' }}>
+          <BrowserRouter>
+            <Switch>
+              <Route path='/' exact>
+                <Home />
+              </Route>
+              <Route path='/login'>
+                <Login />
+              </Route>
+            </Switch>
+          </BrowserRouter>
 
-      </div>
+        </div>
+      </MuiThemeProvider>
     </React.Fragment>
   );
 }

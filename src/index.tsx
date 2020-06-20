@@ -3,16 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import FirebaseContext from './Firebase/Context';
-import fireBaseApp from './Firebase/Firebase';
+import FirebaseProvider from './Firebase/Firebase'
 
 ReactDOM.render(
-  <FirebaseContext.Provider value={{
-      isLoggedin: false,
-      app: fireBaseApp()
-    }}>
+  <FirebaseProvider>
     <App />
-  </FirebaseContext.Provider>,
+  </FirebaseProvider>,
   document.getElementById('root')
 );
 
