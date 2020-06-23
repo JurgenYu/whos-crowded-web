@@ -5,7 +5,7 @@ import FirebaseContext, { inputFormInterface } from '../../Firebase/Context'
 
 //UI Components
 import TextField from '@material-ui/core/TextField';
-import { makeStyles, Theme, createStyles, Button} from '@material-ui/core';
+import { makeStyles, Theme, createStyles, Button, CircularProgress } from '@material-ui/core';
 
 interface errorsInterface {
     email: boolean,
@@ -42,6 +42,7 @@ const WithEmailAndPasswd = () => {
     const classes = useStyles();
     const [inputForm, setInputForm] = useState<inputFormInterface>(inputFormInitialState)
     const [errors, setErrors] = useState<errorsInterface>(errorsInitState);
+    const [loading, setLoading] = useState(false);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputForm({
@@ -52,6 +53,7 @@ const WithEmailAndPasswd = () => {
 
     const buttonClickHandler = (event: React.FormEvent) => {
         event.preventDefault();
+        setLoading(true);
         firebase?.authWithEmailAndPassWd(inputForm)
             .catch((error: firebase.FirebaseError) => {
                 switch (error.code) {
@@ -66,8 +68,13 @@ const WithEmailAndPasswd = () => {
                         break;
                     default:
                         break;
+                        
                 }
+                setLoading(false);
             });
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
     }
 
     return (
@@ -96,10 +103,13 @@ const WithEmailAndPasswd = () => {
                     className={classes.textField}
                     fullWidth
                 />
-                <Button type='submit' variant='contained' className={classes.button}>Login</Button>
+                <Button disabled={loading} type='submit' variant='contained' className={classes.button}>Login</Button>
+                {loading && (
+                    <CircularProgress style={{ position: 'absolute', marginLeft: '1rem', marginTop: '1rem' }} color='secondary' size={30} />
+                )}
             </form>
-            <small style={{float:'right', marginTop:'-2.1rem', marginBottom: '1rem'}}>
-                    Dont have an account ? sign up <Link to="/signup">here</Link>
+            <small style={{ float: 'right', marginTop: '-2.1rem', marginBottom: '1rem' }}>
+                Dont have an account ? sign up <Link to="/signup">here</Link>
             </small>
         </React.Fragment>
     )
