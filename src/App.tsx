@@ -7,6 +7,7 @@ import Home from './Pages/Home';
 import Login from './Pages/Login';
 import theme from './Util/theme'
 import { MuiThemeProvider } from '@material-ui/core';
+import SignUp from './Pages/SignUp';
 
 function App() {
   return (
@@ -18,8 +19,11 @@ function App() {
               <Route path='/' exact>
                 <Home />
               </Route>
-              <Route path='/login'>
+              <Route path='/login' exact>
                 <Login />
+              </Route>
+              <Route path='/signup' exact>
+                <SignUp/>
               </Route>
             </Switch>
           </BrowserRouter>

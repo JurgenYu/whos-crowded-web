@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import FirebaseContext, { inputFormInterface } from '../../Firebase/Context'
@@ -85,7 +85,7 @@ const WithEmailAndPasswd = () => {
                     name="email"
                     type="email"
                     label="Email Address"
-                    helperText={errors.error}
+                    helperText={errors.email? errors.error: ''}
                     error={errors.email}
                     value={inputForm.email}
                     onChange={handleInputChange}
@@ -97,7 +97,8 @@ const WithEmailAndPasswd = () => {
                     name="passwd"
                     type="password"
                     label="Password"
-                    helperText={errors.error}
+                    helperText={errors.passwd? errors.error: ''}
+                    error={errors.email}
                     value={inputForm.passwd}
                     onChange={handleInputChange}
                     className={classes.textField}

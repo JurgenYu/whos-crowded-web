@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 
 //components
 import NavBar from '../Components/NavBar/NavBar'
-import { Paper, Box, makeStyles, createStyles, Theme } from '@material-ui/core'
+import { Paper, makeStyles, createStyles, Theme } from '@material-ui/core'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

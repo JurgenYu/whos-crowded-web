@@ -4,8 +4,8 @@ import './NavBar.css'
 import UserAvatar from '../UserAvatar/UserAvatar'
 
 import Button from '@material-ui/core/Button';
-import { Link, Redirect } from 'react-router-dom';
-import { createMuiTheme, MuiThemeProvider, styled } from '@material-ui/core';
+import { Redirect } from 'react-router-dom';
+import { styled } from '@material-ui/core';
 
 const StyledButton = styled(Button)({
     marginRight:'1.25rem',

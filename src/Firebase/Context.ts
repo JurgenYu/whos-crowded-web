@@ -4,8 +4,9 @@ import * as firebase from 'firebase'
 interface FirebaseContextInterface {
     currentUser: firebase.User | null,
     authWithEmailAndPassWd: (inputForm: inputFormInterface) => Promise<firebase.auth.UserCredential>,
-    userSignOut: ()=>void,
-    authWithGoogle: ()=>Promise<firebase.auth.UserCredential>
+    userSignOut: () => void,
+    authWithGoogle: () => Promise<firebase.auth.UserCredential>,
+    signupWithEmailAndPasswd: (inputForm: inputFormInterface) => Promise<firebase.auth.UserCredential>
 }
 
 export interface inputFormInterface {

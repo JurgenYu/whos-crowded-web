@@ -18,7 +18,7 @@ type Props = {
 
 const authWithEmailAndPassWd = (form: inputFormInterface) => {
     const { email, passwd } = { ...form };
-    return firebase.auth().signInWithEmailAndPassword(email, passwd)
+    return firebase.auth().signInWithEmailAndPassword(email, passwd);
 }
 
 const userSignOut = () => {
@@ -30,6 +30,10 @@ const authWithGoogle = () => {
     return firebase.auth().signInWithPopup(provider);
 }
 
+const signupWithEmailAndPasswd = (form: inputFormInterface) => {
+    const { email, passwd } = { ...form }
+    return firebase.auth().createUserWithEmailAndPassword(email, passwd);
+}
 
 const FirebaseProvider = ({ children }: Props) => {
     if (firebase.apps.length === 0) {
@@ -38,21 +42,26 @@ const FirebaseProvider = ({ children }: Props) => {
     const [currentUser, setCurrentUser] = useState<firebase.User | null>(null);
 
     useEffect(() => {
-        firebase.auth().onAuthStateChanged(() => setCurrentUser(firebase.auth().currentUser));
+        firebase.auth().onAuthStateChanged(() => {
+            setTimeout(() => {
+                setCurrentUser(firebase.auth().currentUser);
+            }, 10);
+        });
     }, []);
 
-    return (
-        <FirebaseContext.Provider
-            value={{
-                currentUser: currentUser,
-                authWithEmailAndPassWd: authWithEmailAndPassWd,
-                userSignOut: userSignOut,
-                authWithGoogle: authWithGoogle
-            }}
-        >
-            {children}
-        </FirebaseContext.Provider>
-    )
+return (
+    <FirebaseContext.Provider
+        value={{
+            currentUser: currentUser,
+            authWithEmailAndPassWd: authWithEmailAndPassWd,
+            userSignOut: userSignOut,
+            authWithGoogle: authWithGoogle,
+            signupWithEmailAndPasswd: signupWithEmailAndPasswd
+        }}
+    >
+        {children}
+    </FirebaseContext.Provider>
+)
 
 }
 

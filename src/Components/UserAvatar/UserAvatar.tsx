@@ -43,8 +43,6 @@ export default function UserAvatar() {
         history.push('./');
     }
 
-    console.log(isLoggedin);
-
     return (
         <div>
             {isLoggedin ?
