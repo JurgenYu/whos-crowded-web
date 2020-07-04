@@ -7,7 +7,8 @@ interface FirebaseContextInterface {
     userSignOut: () => void,
     authWithGoogle: () => Promise<firebase.auth.UserCredential>,
     authWithFacebook: () => Promise<firebase.auth.UserCredential>,
-    signupWithEmailAndPasswd: (inputForm: inputFormInterface) => Promise<firebase.auth.UserCredential>
+    signupWithEmailAndPasswd: (inputForm: inputFormInterface) => Promise<firebase.auth.UserCredential>,
+    db: firebase.database.Database | null,
 }
 
 export interface inputFormInterface {

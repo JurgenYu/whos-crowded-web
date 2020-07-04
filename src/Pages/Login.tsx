@@ -28,7 +28,7 @@ const Login: FunctionComponent = () => {
 
     return (
         <React.Fragment>
-            {redirect && <Redirect to='./'/>}
+            {redirect && <Redirect to='./home'/>}
             <div>
                 <Grid container justify='center' className={classes.grid}>
                     <Paper>

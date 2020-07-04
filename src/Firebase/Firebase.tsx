@@ -54,6 +54,8 @@ const FirebaseProvider = ({ children }: Props) => {
         });
     }, []);
 
+const db = firebase.database();
+
 return (
     <FirebaseContext.Provider
         value={{
@@ -62,7 +64,9 @@ return (
             userSignOut: userSignOut,
             authWithGoogle: authWithGoogle,
             authWithFacebook: authWithFacebook,
-            signupWithEmailAndPasswd: signupWithEmailAndPasswd
+            signupWithEmailAndPasswd: signupWithEmailAndPasswd,
+            db: db,
+
         }}
     >
         {children}
