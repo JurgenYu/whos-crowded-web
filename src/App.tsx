@@ -8,6 +8,7 @@ import Login from './Pages/Login';
 import theme from './Util/theme'
 import { MuiThemeProvider } from '@material-ui/core';
 import SignUp from './Pages/SignUp';
+import NavBar from './Components/NavBar/NavBar';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <MuiThemeProvider theme={theme}>
         <div style={{ backgroundColor: 'gray', height: '100vh' }}>
           <BrowserRouter>
+            <NavBar/>
             <Switch>
               <Route path='/' exact>
                 <Home />
@@ -23,7 +25,7 @@ function App() {
                 <Login />
               </Route>
               <Route path='/signup' exact>
-                <SignUp/>
+                <SignUp />
               </Route>
             </Switch>
           </BrowserRouter>

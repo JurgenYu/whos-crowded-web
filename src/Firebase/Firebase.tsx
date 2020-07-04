@@ -30,6 +30,11 @@ const authWithGoogle = () => {
     return firebase.auth().signInWithPopup(provider);
 }
 
+const authWithFacebook = () => {
+    let provider = new firebase.auth.FacebookAuthProvider();
+    return firebase.auth().signInWithPopup(provider);
+}
+
 const signupWithEmailAndPasswd = (form: inputFormInterface) => {
     const { email, passwd } = { ...form }
     return firebase.auth().createUserWithEmailAndPassword(email, passwd);
@@ -56,6 +61,7 @@ return (
             authWithEmailAndPassWd: authWithEmailAndPassWd,
             userSignOut: userSignOut,
             authWithGoogle: authWithGoogle,
+            authWithFacebook: authWithFacebook,
             signupWithEmailAndPasswd: signupWithEmailAndPasswd
         }}
     >

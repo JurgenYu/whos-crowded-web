@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 
 //components
-import NavBar from '../Components/NavBar/NavBar'
 import { Paper, makeStyles, createStyles, Theme } from '@material-ui/core'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -25,7 +24,6 @@ const Home: FunctionComponent = () => {
     const classes = useStyles();
     return (
         <React.Fragment>
-            <NavBar />
             <div className={classes.root}>
                 <Paper elevation={0} />
                 <Paper />

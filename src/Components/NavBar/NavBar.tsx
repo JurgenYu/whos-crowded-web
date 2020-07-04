@@ -5,11 +5,13 @@ import UserAvatar from '../UserAvatar/UserAvatar'
 
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
-import { styled } from '@material-ui/core';
+import { styled, Grid } from '@material-ui/core';
 
 const StyledButton = styled(Button)({
-    marginRight:'1.25rem',
-    marginLeft:'1.25rem'
+    marginRight: '1.25rem',
+    marginLeft: '1.25rem',
+    outlineColor: '#c8c8c8',
+    backgroundColor: 'transparent',
 })
 
 export default function NavBar() {
@@ -17,29 +19,63 @@ export default function NavBar() {
     const [redirect, setRedirect] = useState(false);
     const [tarUrl, settarUrl] = useState('');
 
-    const handleClick = (target:string) => {
+    let pathName = window.location.pathname;
+
+    const handleClick = (target: string) => {
         setRedirect(true);
         settarUrl(target);
 
-        setTimeout(()=>{
-            setRedirect(false)
+        setTimeout(() => {
+            setRedirect(false);
             settarUrl('');
         }, 50)
     }
 
     return (
         <React.Fragment>
-            {redirect && <Redirect to={tarUrl}/>}
+            {redirect && <Redirect to={tarUrl} />}
             <div className='nav-bar-container'>
                 <div className='nav-avatar'>
-                    <UserAvatar />
+                    <UserAvatar onClick={handleClick} />
                 </div>
                 <div className="nav-bar-items">
-                        <StyledButton onClick={()=>handleClick('./')}>Home</StyledButton>
-                        <StyledButton onClick={()=>handleClick('./')}>Parties</StyledButton>
-                        <StyledButton onClick={()=>handleClick('./')}>Clubs</StyledButton>
-                        <StyledButton onClick={()=>handleClick('./')}>Djs</StyledButton>
-                        <StyledButton onClick={()=>handleClick('./')}>CROWDs</StyledButton>
+                    <Grid container justify='center'>
+                        <StyledButton
+                            variant={pathName === '/home' ? 'outlined' : 'text'}
+                            disableElevation
+                            onClick={() => handleClick('/home')}
+                        >
+                            Home
+                    </StyledButton>
+                        <StyledButton
+                            variant={pathName === '/parties' ? 'outlined' : 'text'}
+                            disableElevation
+                            onClick={() => handleClick('/parties')}
+                        >
+                            Parties
+                    </StyledButton>
+                        <StyledButton
+                            variant={pathName === '/clubs' ? 'outlined' : 'text'}
+                            disableElevation
+                            onClick={() => handleClick('/clubs')}
+                        >
+                            Clubs
+                    </StyledButton>
+                        <StyledButton
+                            variant={pathName === '/djs' ? 'outlined' : 'text'}
+                            disableElevation
+                            onClick={() => handleClick('/djs')}
+                        >
+                            Djs
+                    </StyledButton>
+                        <StyledButton
+                            variant={pathName === '/crowds' ? 'outlined' : 'text'}
+                            disableElevation
+                            onClick={() => handleClick('/crowds')}
+                        >
+                            CROWDs
+                    </StyledButton>
+                    </Grid>
                 </div>
             </div>
         </React.Fragment>

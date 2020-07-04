@@ -4,7 +4,19 @@ export default createMuiTheme({
     overrides: {
         MuiButton:{
             root: {
-                color: '#fff'
+                color: '#fff',
+            },
+            text: {
+                color: 'fff',
+                width: '4.5rem'
+            },
+            outlined: {
+                color: '#fff',
+                borderColor: '#c8c8c8',
+                width: '4.5rem',
+                '&:hover': {
+                    borderColor: '#c8c8c8'
+                },
             }
         }
     }

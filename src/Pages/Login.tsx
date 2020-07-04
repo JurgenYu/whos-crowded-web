@@ -9,11 +9,11 @@ import WithGoogle from '../Components/LoginForm/WithGoole'
 
 //UI Components
 import TabPanel from '../Components/TabPanel/TabPanel'
-import NavBar from '../Components/NavBar/NavBar'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Grid from '@material-ui/core/Grid'
 import { makeStyles, Theme, createStyles, Paper } from '@material-ui/core';
+import WithFacebook from '../Components/LoginForm/WithFacebook'
 
 const useStyles = makeStyles((theme: Theme) => createStyles({ grid: { paddingTop: '7rem' } }));
 
@@ -29,7 +29,6 @@ const Login: FunctionComponent = () => {
     return (
         <React.Fragment>
             {redirect && <Redirect to='./'/>}
-            <NavBar />
             <div>
                 <Grid container justify='center' className={classes.grid}>
                     <Paper>
@@ -49,7 +48,7 @@ const Login: FunctionComponent = () => {
                             <WithGoogle/>
                     </TabPanel>
                         <TabPanel value={pageIndex} index={2}>
-                            Item Three
+                            <WithFacebook/>
                     </TabPanel>
                     </Paper>
                 </Grid>

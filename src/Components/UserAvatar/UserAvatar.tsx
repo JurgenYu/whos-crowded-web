@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core';
 import FirebaseContext from '../../Firebase/Context';
@@ -15,17 +15,26 @@ const useAvatarStyles = makeStyles({
     button: {
         width: '56px',
         height: '56px',
-        margin: '0 auto'
+        margin: '0 auto',
+        borderRadius: '28px',
     }
 });
 
-export default function UserAvatar() {
+interface UserAvatarProps {
+    onClick: (target: string) => void
+}
+
+export default function UserAvatar(props: UserAvatarProps) {
+    const { onClick } = props;
 
     const classes = useAvatarStyles();
     const firebase = useContext(FirebaseContext);
     const history = useHistory();
 
     const isLoggedin = firebase?.currentUser !== null;
+
+    const photoUrl = firebase?.currentUser?.photoURL;
+    const userName = firebase?.currentUser?.displayName;
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -47,9 +56,15 @@ export default function UserAvatar() {
         <div>
             {isLoggedin ?
                 <div>
-                    <Avatar aria-controls="simple-menu" aria-haspopup="true" className={classes.avatar}>
-                        <Button className={classes.button} onClick={handleClick}>user</Button>
-                    </Avatar>
+                    <Button disableRipple onClick={handleClick} className={classes.button}>
+                        <Avatar
+                            src={photoUrl ? photoUrl : undefined}
+                            alt={userName ? userName : 'Menus'}
+                            aria-controls="simple-menu"
+                            aria-haspopup="true"
+                            className={classes.avatar}>
+                        </Avatar>
+                    </Button>
 
                     <Menu
                         id="simple-menu"
@@ -65,7 +80,7 @@ export default function UserAvatar() {
                 </div> :
                 <div>
                     <Avatar className={classes.avatar}>
-                        <Button className={classes.button} onClick={() => history.push('./login')}>
+                        <Button className={classes.button} onClick={() => onClick('/login')}>
                             Login
                         </Button>
                     </Avatar>
