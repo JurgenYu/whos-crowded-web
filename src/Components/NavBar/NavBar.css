@@ -1,8 +1,15 @@
 .nav-bar-container {
     padding-top: 2rem;
-    position: relative;
+    position: fixed;
+    top: 0;
     display: flex;
     width: 100%;
+    z-index: 1000;
+}
+
+.nav-bar-container-sticky {
+    position: fixed;
+    top: 0;
 }
 
 .nav-bar-items {
