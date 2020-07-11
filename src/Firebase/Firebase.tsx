@@ -54,7 +54,7 @@ const FirebaseProvider = ({ children }: Props) => {
         });
     }, []);
 
-const db = firebase.database();
+const db = firebase.firestore();
 
 return (
     <FirebaseContext.Provider
@@ -66,7 +66,6 @@ return (
             authWithFacebook: authWithFacebook,
             signupWithEmailAndPasswd: signupWithEmailAndPasswd,
             db: db,
-
         }}
     >
         {children}

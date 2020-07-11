@@ -24,7 +24,7 @@ const inputFormInitialState = {
 
 const useStyles = makeStyles({
     paper: {
-        marginTop: '7rem',
+        marginTop: '3rem',
         paddingTop: '0.5rem',
         width: '34.7rem'
     },

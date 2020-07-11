@@ -15,7 +15,7 @@ export default createMuiTheme({
                 borderColor: '#c8c8c8',
                 width: '4.5rem',
                 '&:hover': {
-                    borderColor: '#c8c8c8'
+                    borderColor: '#424242'
                 },
             }
         }

@@ -15,7 +15,11 @@ function App() {
   return (
     <React.Fragment>
       <MuiThemeProvider theme={theme}>
-        <div style={{ backgroundColor: 'gray', height: '100vh' }}>
+        <div style={{
+          backgroundColor: '#757575',
+          minHeight: '100vh',
+          height: '100%',
+          }}>
           <BrowserRouter>
             <NavBar/>
             <Switch>

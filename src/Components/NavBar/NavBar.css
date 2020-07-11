@@ -1,6 +1,8 @@
 .nav-bar-container {
     padding-top: 2rem;
-    position: fixed;
+    position: relative;
+    justify-content: center;
+    margin-bottom: 3rem;
     top: 0;
     display: flex;
     width: 100%;

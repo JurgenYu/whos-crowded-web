@@ -15,7 +15,7 @@ import Grid from '@material-ui/core/Grid'
 import { makeStyles, Theme, createStyles, Paper } from '@material-ui/core';
 import WithFacebook from '../Components/LoginForm/WithFacebook'
 
-const useStyles = makeStyles((theme: Theme) => createStyles({ grid: { paddingTop: '7rem' } }));
+const useStyles = makeStyles((theme: Theme) => createStyles({ grid: { paddingTop: '3rem' } }));
 
 const Login: FunctionComponent = () => {
     const firebase = useContext(FirebaseContext);

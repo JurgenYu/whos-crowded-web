@@ -11,12 +11,18 @@ const useAvatarStyles = makeStyles({
     avatar: {
         width: '56px',
         height: '56px',
+        color: '#212121'
     },
     button: {
         width: '56px',
         height: '56px',
         margin: '0 auto',
         borderRadius: '28px',
+        backgroundColor: '#f5f5f5',
+        color: '#616161',
+        "&:hover": {
+            backgroundColor: '#e0e0e0'
+        }
     }
 });
 
@@ -29,7 +35,6 @@ export default function UserAvatar(props: UserAvatarProps) {
 
     const classes = useAvatarStyles();
     const firebase = useContext(FirebaseContext);
-    const history = useHistory();
 
     const isLoggedin = firebase?.currentUser !== null;
 
@@ -44,12 +49,12 @@ export default function UserAvatar(props: UserAvatarProps) {
 
     const handleClose = (target: string) => {
         setAnchorEl(null);
-        history.push(target);
+        onClick(target);
     };
 
     const handleLogout = () => {
         firebase?.userSignOut();
-        history.push('./');
+        onClick('./');
     }
 
     return (
@@ -80,7 +85,7 @@ export default function UserAvatar(props: UserAvatarProps) {
                 </div> :
                 <div>
                     <Avatar className={classes.avatar}>
-                        <Button className={classes.button} onClick={() => onClick('/login')}>
+                        <Button className={classes.button} onClick={() => handleClose('/login')}>
                             Login
                         </Button>
                     </Avatar>
