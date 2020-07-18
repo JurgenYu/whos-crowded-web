@@ -1,70 +1,22 @@
 import React, { FunctionComponent, useContext, useState, useEffect } from 'react'
-import { Grid, Paper, Card, GridList, CardHeader, GridListTile, Container, makeStyles, createStyles, Theme, Typography, CardContent, CardMedia, CardActionArea } from '@material-ui/core'
+import { Grid, Paper, Card, GridList, CardHeader, GridListTile, Container, makeStyles, createStyles, Theme, Typography, CardContent, CardMedia, CardActionArea, TextField, Button } from '@material-ui/core'
 import FirebaseContext from '../Firebase/Context'
 import partyImg from '../images/party-icon-png-21.jpg'
-
-type Party = {
-    address: string,
-    banner: string,
-    city: string,
-    crowdid: string,
-    description: string,
-    end_time: firebase.firestore.Timestamp,
-    genres: Array<string>,
-    point: firebase.firestore.GeoPoint,
-    promoterid: string,
-    start_time: firebase.firestore.Timestamp,
-    state: string,
-    title: string,
-    zip: string | number
-}
-
-const partyConverter = {
-    toFirestore: (party: Party): firebase.firestore.DocumentData => {
-        return {
-            address: party.address,
-            banner: party.banner,
-            city: party.city,
-            crowdid: party.crowdid,
-            description: party.description,
-            end_time: party.end_time,
-            genres: party.genres,
-            point: party.point,
-            promoterid: party.promoterid,
-            start_time: party.start_time,
-            state: party.state,
-            title: party.title,
-            zip: party.zip
-        }
-    },
-    fromFirestore: (snapshot: firebase.firestore.QueryDocumentSnapshot, options: firebase.firestore.SnapshotOptions): Party => {
-        const data = snapshot.data(options);
-        return {
-            address: data.address,
-            banner: data.banner,
-            city: data.city,
-            crowdid: data.crowdid,
-            description: data.description,
-            end_time: data.end_time,
-            genres: data.genres,
-            point: data.point,
-            promoterid: data.promoterid,
-            start_time: data.start_time,
-            state: data.state,
-            title: data.title,
-            zip: data.zip
-        }
-    }
-}
+import { Party, partyConverter } from '../Firebase/Converters/PartyConverter'
+import { API_KEY } from '../GoogleMaps/GooleMaps'
+import { resolve } from 'url'
+import { firestore } from 'firebase'
+import { getDistanceFromLatLonInKm } from '../Util/DistanceCalc'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            overflow: 'hidden',
-            position: 'relative',
+            // display: 'flex',
+            // // flexWrap: 'wrap',
+            // justifyContent: 'space-around',
+            // overflow: 'hidden',
+            // position: 'relative',
+            maxWidth: '60%',
             backgroundColor: 'transparent',
         },
         gridList: {
@@ -73,71 +25,152 @@ const useStyles = makeStyles((theme: Theme) =>
             transform: 'translateZ(0)',
         },
         media: {
-            height: 140,
-            width: 270
+            height: 450,
+            width: 450,
         },
         card: {
-            margin: '0 auto',
+            margin: 'auto',
+            width: 450,
+            marginTop: '2rem',
+            backgroundColor: '#fff',
+            marginBottom: '2rem',
+            '&:hover': {
+                transform: 'scale(1.05, 1.05)'
+            }
         }
     })
 )
+
+console.log(1)
 
 const Parties: FunctionComponent = () => {
     const classes = useStyles();
     const firebase = useContext(FirebaseContext);
 
     const [parties, setParties] = useState<Array<Party>>([])
+    const [loading, setloading] = useState(true);
+    const [userLoc, setUserLoc] = useState<firebase.firestore.GeoPoint | null>(null);
+    const [inputZip, setInputZip] = useState<string>('');
+    const [submitZip, setSubmitZip] = useState<string | null>(null)
 
     useEffect(() => {
-        if (parties.length === 0) {
-            firebase?.db?.collection('env/prod/parties')
-                .withConverter(partyConverter)
-                .get().then((doc) => {
-                    doc.forEach(element => {
-                        parties.push(element.data())
-                    });
-                }).finally(() => setParties([...parties]))
-        }
-
-    });
-
-    parties.map((value)=> {
-        if (value.title === 'Blowing Money Fast') {
-            console.log(value);
+        if (!userLoc) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setUserLoc(new firestore.GeoPoint(position.coords.latitude, position.coords.longitude));
+                },
+                (error) => {
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            console.log('User denied the request for Geolocation');
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            console.log("Location information is unavailable");
+                            break;
+                        case error.TIMEOUT:
+                            console.log("Timed out");
+                            break;
+                        default:
+                            break;
+                    }
+                })
         }
     })
 
-    return (
-        <div>
-            {parties.length !== 0 ?
-                <div className={classes.root}>
-                    <GridList cols={4} cellHeight={200} spacing={3} className={classes.gridList}>
-                        {parties.map((value, key) => {
-                            return (
-                                <Card className={classes.card}>
-                                    <CardActionArea>
-                                        <CardMedia
-                                            className={classes.media}
-                                            image={value.banner? value.banner:partyImg}
-                                        />
-                                        <CardContent>
-                                            <Typography>
-                                                {value.description}
-                                            </Typography>
-                                            <Typography>
-                                                {value.address}
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            )
-                        }
-                        )}
-                    </GridList>
-                </div>
-                :
-                <span>Loading...</span>}
+    const today = new Date()
 
+    useEffect(() => {
+        if (userLoc) {
+            firebase?.db?.collection('env/prod/parties')
+                .where('end_time', '>', today)
+                .withConverter(partyConverter)
+                .get().then((doc) => {
+                    doc.forEach(element => {
+                        const newParty = element.data()
+                        newParty.distance = getDistanceFromLatLonInKm(userLoc.latitude, userLoc.longitude, newParty.point.latitude, newParty.point.longitude);
+                        newParty.address = newParty.address.trimEnd();
+                        newParty.city = newParty.city.trimEnd();
+                        if (newParty.banner) {
+                            firebase?.storage?.ref().child(newParty.banner).getDownloadURL().then((url) => {
+                                newParty.banner = url;
+                                setParties(p => [...p, newParty])
+                            });
+                        }
+                        else {
+                            setParties(p => [...p, newParty])
+                        }
+                    });
+                })
+            setloading(false);
+        }
+    }, [userLoc]);
+
+    useEffect(() => {
+        if (submitZip) {
+            const google = window.google;
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ address: submitZip }, (res) => {
+                if (google.maps.GeocoderStatus.OK) {
+                    setUserLoc(new firestore.GeoPoint(res[0].geometry.location.lat(), res[0].geometry.location.lng()))
+                }
+            })
+        }
+    }, [submitZip])
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log(inputZip)
+        setSubmitZip(inputZip);
+    }
+
+    return (
+        <div style={{ width: '70%', display: 'table', margin: '0 auto' }}>
+            <Grid container justify='center'>
+                {userLoc ? !loading &&
+                    parties.sort((a, b) => (a.distance - b.distance)).map((value, key) => {
+                        return (
+                            <Card className={classes.card}>
+                                <CardActionArea>
+                                    <CardMedia
+                                        height='300'
+                                        component='img'
+                                        className={classes.media}
+                                        src={value.banner}
+                                        alt={partyImg}
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            {value.description}
+                                        </Typography>
+                                        <Typography variant="body1" color="textPrimary" component="p">
+                                            {value.address +", " + value.city + ", " + value.state}
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p">
+                                            {value.distance + " Miles"}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        )
+                    })
+                    :
+                    <Paper>
+                        <form noValidate onSubmit={handleSubmit}>
+                            <TextField
+                                id="zip"
+                                name="zip"
+                                type="zip"
+                                label="Your Postal code"
+                                value={inputZip}
+                                onChange={(e) => { setInputZip(e.target.value) }}
+                                fullWidth
+                            />
+                            <Button type='submit'>lol</Button>
+                        </form>
+                    </Paper>
+                }
+
+            </Grid>
         </div>
     )
 }

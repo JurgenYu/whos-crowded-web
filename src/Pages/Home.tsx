@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Home: FunctionComponent = () => {
     const classes = useStyles();
+    console.log(1)
     return (
         <React.Fragment>
             <div className={classes.root}>

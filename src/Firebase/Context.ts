@@ -9,6 +9,7 @@ interface FirebaseContextInterface {
     authWithFacebook: () => Promise<firebase.auth.UserCredential>,
     signupWithEmailAndPasswd: (inputForm: inputFormInterface) => Promise<firebase.auth.UserCredential>,
     db: firebase.firestore.Firestore | null,
+    storage: firebase.storage.Storage | null,
 }
 
 export interface inputFormInterface {

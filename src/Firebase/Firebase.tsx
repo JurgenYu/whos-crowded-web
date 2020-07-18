@@ -12,7 +12,7 @@ const firebaseConfig = {
     appId: "1:748794973025:web:1ae26acc25827cefb25320"
 };
 
-type Props = {
+interface FirebaseProviderProps  {
     children: ReactNode
 };
 
@@ -40,7 +40,7 @@ const signupWithEmailAndPasswd = (form: inputFormInterface) => {
     return firebase.auth().createUserWithEmailAndPassword(email, passwd);
 }
 
-const FirebaseProvider = ({ children }: Props) => {
+const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
     if (firebase.apps.length === 0) {
         firebase.initializeApp(firebaseConfig);
     }
@@ -54,23 +54,26 @@ const FirebaseProvider = ({ children }: Props) => {
         });
     }, []);
 
-const db = firebase.firestore();
+    const db = firebase.firestore();
 
-return (
-    <FirebaseContext.Provider
-        value={{
-            currentUser: currentUser,
-            authWithEmailAndPassWd: authWithEmailAndPassWd,
-            userSignOut: userSignOut,
-            authWithGoogle: authWithGoogle,
-            authWithFacebook: authWithFacebook,
-            signupWithEmailAndPasswd: signupWithEmailAndPasswd,
-            db: db,
-        }}
-    >
-        {children}
-    </FirebaseContext.Provider>
-)
+    const storage = firebase.storage();
+
+    return (
+        <FirebaseContext.Provider
+            value={{
+                currentUser: currentUser,
+                authWithEmailAndPassWd: authWithEmailAndPassWd,
+                userSignOut: userSignOut,
+                authWithGoogle: authWithGoogle,
+                authWithFacebook: authWithFacebook,
+                signupWithEmailAndPasswd: signupWithEmailAndPasswd,
+                db: db,
+                storage: storage,
+            }}
+        >
+            {children}
+        </FirebaseContext.Provider>
+    )
 
 }
 

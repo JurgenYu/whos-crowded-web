@@ -18,6 +18,11 @@ export default createMuiTheme({
                     borderColor: '#424242'
                 },
             }
+        },
+        MuiCard: {
+            root: {
+                padding: '0px'
+            }
         }
     }
 })
