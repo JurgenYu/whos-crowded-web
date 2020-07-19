@@ -9,6 +9,7 @@ import { firestore } from 'firebase'
 import { getDistanceFromLatLonInKm } from '../Util/DistanceCalc'
 import SearchIcon from '@material-ui/icons/Search';
 import { GENRES } from '../Util/Genres'
+import NavToMapFab from '../Components/NavToMapFab/NavToMapFab'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '50rem',
         },
         listItemText2: {
-            width: '35rem',
+            width: '30rem',
         },
         formControl: {
             width: '10%',
@@ -270,6 +271,25 @@ const Clubs: FunctionComponent = () => {
                                             </React.Fragment>
                                         }
                                     ></ListItemText>
+                                    <div style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        position: 'relative',
+                                        right: '0%',
+                                        height: 'auto',
+                                        margin: '0 auto',
+                                        width: '16rem',
+                                        alignContent: 'center'
+                                    }}>
+                                        {value.point &&
+                                            <NavToMapFab
+                                                address={value.address}
+                                                city={value.city}
+                                                state={value.state}
+                                                point={value.point}
+                                            />}
+                                    </div>
                                 </ListItem>
                                 <Divider variant="fullWidth" component="li" />
                             </div>

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext, useState, useEffect } from 'react'
-import { Grid, Paper, Card, GridList, CardHeader, GridListTile, Container, makeStyles, createStyles, Theme, Typography, CardContent, CardMedia, CardActionArea, TextField, Button, Input, FormControl, InputLabel, Select, MenuItem, ListSubheader, Checkbox, ListItemText, Menu, Chip, Divider } from '@material-ui/core'
+import { Grid, Paper, Card, GridList, CardHeader, GridListTile, Container, makeStyles, createStyles, Theme, Typography, CardContent, CardMedia, CardActionArea, TextField, Button, Input, FormControl, InputLabel, Select, MenuItem, ListSubheader, Checkbox, ListItemText, Menu, Chip, Divider, Fab } from '@material-ui/core'
 import FirebaseContext from '../Firebase/Context'
 import partyImg from '../images/party-icon-png-21.jpg'
 import { Party, partyConverter } from '../Firebase/Converters/PartyConverter'
@@ -10,6 +10,8 @@ import { getDistanceFromLatLonInKm } from '../Util/DistanceCalc'
 import SearchIcon from '@material-ui/icons/Search';
 import { GENRES } from '../Util/Genres'
 import PartyPopup from '../Components/PartyPopup/PartyPopup'
+
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -68,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) =>
             '&.Mui-focused': {
                 color: '#fff'
             },
-        }
+        },
     })
 )
 
@@ -120,7 +122,7 @@ const Parties: FunctionComponent = () => {
     })
 
     const today = new Date()
-    
+
     useEffect(() => {
         if (userLoc) {
             firebase?.db?.collection('env/prod/parties')
@@ -269,7 +271,7 @@ const Parties: FunctionComponent = () => {
                                                 {value.distance + " Miles"}
                                             </Typography>
                                             <Typography variant="body2" color="textPrimary" component="p">
-                                                {value.start_time.toDate().toLocaleString()+ ' - '+  value.end_time.toDate().toLocaleString()}
+                                                {value.start_time.toDate().toLocaleString() + ' - ' + value.end_time.toDate().toLocaleString()}
                                             </Typography>
                                         </CardContent>
                                     </CardActionArea>

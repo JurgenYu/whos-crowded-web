@@ -60,18 +60,20 @@ function App() {
               </Route>
             </Switch>
           </BrowserRouter>
-        </div>
-        <div style={{
-          backgroundColor: '#212121',
-          height: '10rem',
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-          alignContent: 'center'
-        }}>
-          <a style={{color: '#fff', textDecoration: 'none'}}  href='terms_conditions'>{'Terms&Conditions'}</a>
-          <a style={{color: '#fff', textDecoration: 'none'}}  href='privacy'>{'Privacy Policy'}</a>
+          <div style={{
+            backgroundColor: '#212121',
+            height: '2rem',
+            position: 'fixed',
+            bottom: '0',
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            alignContent: 'center'
+          }}>
+            <a style={{ color: '#fff', textDecoration: 'none' }} href='terms_conditions'>{'Terms&Conditions'}</a>
+            <a style={{ color: '#fff', textDecoration: 'none' }} href='privacy'>{'Privacy Policy'}</a>
+          </div>
         </div>
       </MuiThemeProvider>
     </React.Fragment>
