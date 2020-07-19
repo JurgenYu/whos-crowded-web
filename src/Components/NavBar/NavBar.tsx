@@ -4,14 +4,18 @@ import './NavBar.css'
 import UserAvatar from '../UserAvatar/UserAvatar'
 
 import Button from '@material-ui/core/Button';
-import { Redirect } from 'react-router-dom';
-import { styled, Grid } from '@material-ui/core';
+import { Redirect, Link } from 'react-router-dom';
+import { styled, Grid, Breadcrumbs, Typography } from '@material-ui/core';
+import Header from '../../images/whos_crowded_header.png'
 
 const StyledButton = styled(Button)({
     marginRight: '1.25rem',
     marginLeft: '1.25rem',
     outlineColor: '#c8c8c8',
     backgroundColor: 'transparent',
+    "&:hover": {
+        borderColor: "#fff",
+    }
 })
 
 export default function NavBar() {
@@ -25,6 +29,8 @@ export default function NavBar() {
         setRedirect(true);
         settarUrl(target);
 
+        const isPromoter = window.location.pathname.includes('promoters')
+
         setTimeout(() => {
             setRedirect(false);
             settarUrl('');
@@ -35,8 +41,25 @@ export default function NavBar() {
         <React.Fragment>
             {redirect && <Redirect to={tarUrl} />}
             <div className='nav-bar-container'>
+                <div className='nav-header'>
+                    <img width='45%' src={Header} alt="Broken"></img>
+                </div>
                 <div className='nav-avatar'>
                     <UserAvatar onClick={handleClick} />
+                    <Breadcrumbs style={{ margin: '1rem 3rem', color: '#fff' }} aria-label="breadcrumb">
+                        <Link style={{
+                            textDecoration: 'none',
+                            color: "#fff"
+                        }} to="/home">
+                            WhosCrowded
+                        </Link>
+                        <Link style={{
+                            textDecoration: 'none',
+                            color: "#212121"
+                        }} to="/promoters/console">
+                            Promoter Console
+                        </Link>
+                    </Breadcrumbs>
                 </div>
                 <div className="nav-bar-items">
                     <Grid container justify='center'>

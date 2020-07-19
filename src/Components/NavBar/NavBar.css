@@ -25,10 +25,20 @@
     margin-top: 1rem;
 }
 
+.nav-header {
+    position: absolute;
+    left: calc(50% - 31.5rem);
+    top: 50%;
+    margin-top: 0.5rem;
+    align-items: center;
+}
+
 .nav-avatar {
     position: absolute;
-    left: calc(50% - 23.5rem);
+    left: calc(50% + 22rem);
     padding-top: 0.4rem;
+    display: flex;
+    flex-direction: row;
     margin: 0 auto;
 }
 

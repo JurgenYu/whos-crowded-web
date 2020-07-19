@@ -1,18 +1,23 @@
-import React, { FunctionComponent, useContext, useState, useEffect } from 'react'
-import { Grid, Paper, Card, GridList, CardHeader, GridListTile, Container, makeStyles, createStyles, Theme, Typography, CardContent, CardMedia, CardActionArea, TextField, Button, Input, FormControl, InputLabel, Select, MenuItem, ListSubheader, Checkbox, ListItemText, Menu, Chip, Divider } from '@material-ui/core'
-import FirebaseContext from '../Firebase/Context'
-import partyImg from '../images/party-icon-png-21.jpg'
-import { Party, partyConverter } from '../Firebase/Converters/PartyConverter'
-import { API_KEY } from '../GoogleMaps/GooleMaps'
-import { resolve } from 'url'
-import { firestore } from 'firebase'
-import { getDistanceFromLatLonInKm } from '../Util/DistanceCalc'
+import React, { useContext, useState, useEffect } from 'react'
+import { makeStyles, Theme, createStyles, Grid, Paper, Input, Button, FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, List, ListItem, Typography, Divider, Chip } from '@material-ui/core';
+import FirebaseContext from '../Firebase/Context';
+import { firestore } from 'firebase';
+import { Dj, djConverter } from '../Firebase/Converters/DjConverter';
+import { getDistanceFromLatLonInKm } from '../Util/DistanceCalc';
 import SearchIcon from '@material-ui/icons/Search';
-import { GENRES } from '../Util/Genres'
-import PartyPopup from '../Components/PartyPopup/PartyPopup'
+import { GENRES } from '../Util/Genres';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        root: {
+            width: '100%',
+            maxWidth: '80%',
+            backgroundColor: theme.palette.background.paper,
+            margin: 'auto',
+        },
+        inline: {
+            display: 'inline',
+        },
         input: {
             height: "3rem",
             padding: "0px 14px"
@@ -23,8 +28,6 @@ const useStyles = makeStyles((theme: Theme) =>
             // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
             transform: 'translateZ(0)',
             marginBottom: "2rem",
-            position: 'relative',
-            margin: 'auto'
         },
         button: {
             position: 'absolute',
@@ -45,6 +48,12 @@ const useStyles = makeStyles((theme: Theme) =>
             '&:hover': {
                 transform: 'scale(1.05, 1.05)'
             }
+        },
+        listItemText: {
+            width: '50rem',
+        },
+        listItemText2: {
+            width: '35rem',
         },
         formControl: {
             width: '10%',
@@ -82,18 +91,15 @@ const MenuProps = {
     },
 };
 
-const Parties: FunctionComponent = () => {
+export default function Djs() {
     const classes = useStyles();
     const firebase = useContext(FirebaseContext);
 
-    const [parties, setParties] = useState<Array<Party>>([])
-    const [loading, setloading] = useState(true);
+    const [djs, setDjs] = useState<Array<Dj>>([])
     const [userLoc, setUserLoc] = useState<firebase.firestore.GeoPoint | null>(null);
     const [inputZip, setInputZip] = useState<string>('');
     const [submitZip, setSubmitZip] = useState<string | null>(null)
     const [selectedGenres, setSelectedGenres] = useState<string[]>([])
-    const [open, setOpen] = useState(false)
-    const [popupParty, setPopupParty] = useState<Party | null>(null)
 
     useEffect(() => {
         if (!userLoc) {
@@ -119,35 +125,27 @@ const Parties: FunctionComponent = () => {
         }
     })
 
-    const today = new Date()
-    
     useEffect(() => {
         if (userLoc) {
-            firebase?.db?.collection('env/prod/parties')
-                .where('end_time', '>=', today)
-                .withConverter(partyConverter)
+            const newDjs: Dj[] = [];
+            firebase?.db?.collection('env/prod/djs')
+                .withConverter(djConverter)
                 .get().then((doc) => {
                     doc.forEach(element => {
-                        const newParty = element.data()
-                        newParty.distance = getDistanceFromLatLonInKm(
+                        const newDj = element.data()
+                        newDj.distance = getDistanceFromLatLonInKm(
                             userLoc.latitude,
                             userLoc.longitude,
-                            newParty.point.latitude,
-                            newParty.point.longitude);
-                        newParty.address = newParty.address.trimEnd();
-                        newParty.city = newParty.city.trimEnd();
-                        if (newParty.banner) {
-                            firebase?.storage?.ref().child(newParty.banner).getDownloadURL().then((url) => {
-                                newParty.banner = url;
-                                setParties(p => [...p, newParty])
-                            });
-                        }
-                        else {
-                            setParties(p => [...p, newParty])
-                        }
+                            newDj.point.latitude,
+                            newDj.point.longitude);
+                        newDj.state = newDj.state.trimEnd();
+                        newDj.city = newDj.city.trimEnd();
+                        newDjs.push(newDj)
+                        console.log(newDj)
                     });
+                }).finally(() => {
+                    setDjs(c => newDjs)
                 })
-            setloading(false);
         }
     }, [userLoc]);
 
@@ -165,29 +163,20 @@ const Parties: FunctionComponent = () => {
         }
     }, [submitZip])
 
+    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setSelectedGenres(event.target.value as string[]);
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log(inputZip)
         setSubmitZip(inputZip);
     }
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setSelectedGenres(event.target.value as string[]);
-    };
-
-    const handleToggle = (p: Party) => {
-        setOpen(!open)
-        setPopupParty(p);
-    }
-
-    const handleClose = () => {
-        setOpen(false);
-        setPopupParty(null);
-    }
+    console.log(djs)
 
     return (
         <div>
-            {popupParty && <PartyPopup party={popupParty} open={open} handleClose={handleClose} />}
             <Grid container justify='center'>
                 <Paper className={classes.paper}>
                     <form noValidate onSubmit={handleSubmit}>
@@ -205,7 +194,7 @@ const Parties: FunctionComponent = () => {
                     </form>
                 </Paper>
             </Grid>
-            <div style={{ maxWidth: '80%', display: 'table', margin: '0 auto', paddingBottom: '3rem' }}>
+            <div style={{ maxWidth: '80%', justifyContent: 'center', display: 'table', margin: 'auto', paddingBottom: "3rem" }}>
                 <FormControl className={classes.formControl}>
                     <InputLabel shrink disableAnimation className={classes.inputlabel} id="demo-mutiple-chip-label">Select Genres</InputLabel>
                     <Select
@@ -241,46 +230,50 @@ const Parties: FunctionComponent = () => {
                         )}
                     </Select>
                 </FormControl>
-                <Grid
-                    direction='row'
-                    container
-                    justify='center'>
-                    {!loading &&
-                        parties.sort((a, b) => (a.distance - b.distance)).filter((each) => {
-                            return each.genres.some(r => (selectedGenres.length > 0 ? selectedGenres : GENRES).indexOf(r) >= 0)
-                        }).map((value, key) => {
-                            return (
-                                <Card key={key} className={classes.card}>
-                                    <CardActionArea onClick={() => handleToggle(value)}>
-                                        <CardMedia
-                                            component='img'
-                                            className={classes.media}
-                                            src={value.banner}
-                                            alt={partyImg}
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2">
-                                                {value.title}
+                <List className={classes.root}>
+                    {djs.sort((a, b) => (a.distance - b.distance)).filter((each) => {
+                        return each.genres.some(r => (selectedGenres.length > 0 ? selectedGenres : GENRES).indexOf(r) >= 0)
+                    }).map((value, key) => {
+                        return (
+                            <div>
+                                <ListItem alignItems="flex-start">
+                                    <ListItemText
+                                        className={classes.listItemText}
+                                        primary={value.name}
+                                        secondary={
+                                            <Typography align='right' component="h1" variant="body2" className={classes.inline} color="textSecondary">
+                                                {value.about}
                                             </Typography>
-                                            <Typography variant="body1" color="textPrimary" component="p">
-                                                {value.address + ", " + value.city + ", " + value.state}
-                                            </Typography>
-                                            <Typography variant="body2" color="textSecondary" component="p">
-                                                {value.distance + " Miles"}
-                                            </Typography>
-                                            <Typography variant="body2" color="textPrimary" component="p">
-                                                {value.start_time.toDate().toLocaleString()+ ' - '+  value.end_time.toDate().toLocaleString()}
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            )
-                        })
-                    }
-                </Grid>
+                                        }
+                                    >
+                                    </ListItemText>
+                                    <ListItemText
+                                        className={classes.listItemText2}
+                                        primary={value.distance + "Miles"}
+                                        secondary={
+                                            <React.Fragment>
+                                                <Typography component="span" variant="body2" className={classes.inline} color="textSecondary">
+                                                    {value.city + ', ' + value.state}
+                                                </Typography>
+                                                <br />
+                                                <Typography component="span" variant="body2" className={classes.inline} color="textSecondary">
+                                                    {'Genres: ' + value.genres.join(' ')}
+                                                </Typography>
+                                                <br />
+                                                <Typography component="span" variant="body2" className={classes.inline} color="textSecondary">
+                                                    {'Phone: ' + value.phone}
+                                                </Typography>
+                                            </React.Fragment>
+                                        }
+                                    ></ListItemText>
+                                </ListItem>
+                                <Divider variant="fullWidth" component="li" />
+                            </div>
+
+                        )
+                    })}
+                </List>
             </div>
         </div>
     )
 }
-
-export default Parties;

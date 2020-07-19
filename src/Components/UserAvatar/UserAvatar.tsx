@@ -4,24 +4,25 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, IconButton } from '@material-ui/core';
 import FirebaseContext from '../../Firebase/Context';
 
 const useAvatarStyles = makeStyles({
     avatar: {
         width: '56px',
         height: '56px',
-        color: '#212121'
+        color: '##fff',
+        backgroundColor: '#fff',
     },
     button: {
-        width: '56px',
-        height: '56px',
+        width: '50px',
+        height: '50px',
         margin: '0 auto',
         borderRadius: '28px',
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#fff',
         color: '#616161',
         "&:hover": {
-            backgroundColor: '#e0e0e0'
+            backgroundColor: 'transparent'
         }
     }
 });
@@ -47,9 +48,11 @@ export default function UserAvatar(props: UserAvatarProps) {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = (target: string) => {
+    const handleClose = (target: string | null) => {
         setAnchorEl(null);
-        onClick(target);
+        if (target) {
+            onClick(target);
+        }
     };
 
     const handleLogout = () => {
@@ -61,7 +64,7 @@ export default function UserAvatar(props: UserAvatarProps) {
         <div>
             {isLoggedin ?
                 <div>
-                    <Button disableRipple onClick={handleClick} className={classes.button}>
+                    <IconButton disableRipple onClick={handleClick} className={classes.button}>
                         <Avatar
                             src={photoUrl ? photoUrl : undefined}
                             alt={userName ? userName : 'Menus'}
@@ -69,14 +72,14 @@ export default function UserAvatar(props: UserAvatarProps) {
                             aria-haspopup="true"
                             className={classes.avatar}>
                         </Avatar>
-                    </Button>
+                    </IconButton>
 
                     <Menu
                         id="simple-menu"
                         anchorEl={anchorEl}
                         keepMounted
                         open={Boolean(anchorEl)}
-                        onClose={handleClose}
+                        onClose={() => handleClose(null)}
                     >
                         <MenuItem onClick={() => handleClose('./userprofile')}>Profile</MenuItem>
                         <MenuItem onClick={() => handleClose('./userprofile')}>My account</MenuItem>
