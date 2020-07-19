@@ -51,7 +51,7 @@ export default function NavBar() {
                             textDecoration: 'none',
                             color: "#fff"
                         }} to="/home">
-                            WhosCrowded
+                            Partier
                         </Link>
                         <Link style={{
                             textDecoration: 'none',
