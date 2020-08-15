@@ -6,33 +6,10 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import PhoneIcon from '@material-ui/icons/Phone';
 
-const useStyles = makeStyles({
-    root: {
-        width: "45rem",
-        height: "31rem",
-        borderRadius: "1.7rem",
-        justifyContent: "center",
-    },
-    avatar: {
-        width: "10rem",
-        height: "10rem",
-        boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-        color: "#000",
-        position: "relative",
-        margin: "0 auto",
-        marginTop: "-7rem"
-    },
-    userName: {
-        margin: "0 autp",
-        textAlign: "center",
-        marginTop: "1rem",
-        marginBottom: "1rem",
-
-    }
-})
+import { userProfileStyles } from './styles/userProfileStyles'
 
 export default function UserProfile() {
-    const classes = useStyles();
+    const classes = userProfileStyles();
 
     const firebase = useContext(FirebaseContext);
     const photoUrl = firebase?.currentUser?.photoURL;

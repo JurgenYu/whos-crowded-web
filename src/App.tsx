@@ -22,8 +22,10 @@ function App() {
       <MuiThemeProvider theme={theme}>
         <div style={{
           backgroundColor: '#424242',
+          position: 'fixed',
           minHeight: '100vh',
-          height: 'auto',
+          width: '100%',
+          height: '100%',
         }}>
           <BrowserRouter>
             <NavBar />
@@ -63,7 +65,7 @@ function App() {
           <div style={{
             backgroundColor: '#212121',
             height: '2rem',
-            position: 'fixed',
+            position: 'absolute',
             bottom: '0',
             width: '100%',
             display: 'flex',

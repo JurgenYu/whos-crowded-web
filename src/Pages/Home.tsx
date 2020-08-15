@@ -4,20 +4,10 @@ import React, { FunctionComponent } from 'react'
 import { Paper, makeStyles, createStyles, Theme, Grid } from '@material-ui/core'
 import { Link } from 'react-router-dom';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            position: 'absolute',
-            margin: 'auto',
-            height: 'auto',
-            padding: '0',
-            width: '70%'
-        },
-    }),
-);
+import { homeStyles } from './styles/homeStyles'
 
 const Home: FunctionComponent = () => {
-    const classes = useStyles();
+    const classes = homeStyles();
     console.log(1)
     return (
         <React.Fragment>

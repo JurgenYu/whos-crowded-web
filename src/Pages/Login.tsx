@@ -12,15 +12,16 @@ import TabPanel from '../Components/TabPanel/TabPanel'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Grid from '@material-ui/core/Grid'
-import { makeStyles, Theme, createStyles, Paper } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
 import WithFacebook from '../Components/LoginForm/WithFacebook'
 
-const useStyles = makeStyles((theme: Theme) => createStyles({ grid: { paddingTop: '3rem' } }));
+import { loginStyles } from './styles/loginStyles'
 
 const Login: FunctionComponent = () => {
+    const classes = loginStyles();
+
     const firebase = useContext(FirebaseContext);
     const redirect = firebase?.currentUser !== null;
-    const classes = useStyles();
     const [pageIndex, setpageIndex] = useState(0);
     const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setpageIndex(newValue);

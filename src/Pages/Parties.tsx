@@ -1,78 +1,17 @@
 import React, { FunctionComponent, useContext, useState, useEffect } from 'react'
-import { Grid, Paper, Card, GridList, CardHeader, GridListTile, Container, makeStyles, createStyles, Theme, Typography, CardContent, CardMedia, CardActionArea, TextField, Button, Input, FormControl, InputLabel, Select, MenuItem, ListSubheader, Checkbox, ListItemText, Menu, Chip, Divider, Fab } from '@material-ui/core'
+
 import FirebaseContext from '../Firebase/Context'
 import partyImg from '../images/party-icon-png-21.jpg'
 import { Party, partyConverter } from '../Firebase/Converters/PartyConverter'
 import { API_KEY } from '../GoogleMaps/GooleMaps'
-import { resolve } from 'url'
 import { firestore } from 'firebase'
 import { getDistanceFromLatLonInKm } from '../Util/DistanceCalc'
 import SearchIcon from '@material-ui/icons/Search';
 import { GENRES } from '../Util/Genres'
 import PartyPopup from '../Components/PartyPopup/PartyPopup'
+import { partyStyles } from './styles/partiesStyles'
 
-import { Link } from 'react-router-dom'
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        input: {
-            height: "3rem",
-            padding: "0px 14px"
-        },
-        paper: {
-            width: '35rem',
-            height: '3rem',
-            // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-            transform: 'translateZ(0)',
-            marginBottom: "2rem",
-            position: 'relative',
-            margin: 'auto'
-        },
-        button: {
-            position: 'absolute',
-            right: '0px',
-            color: '#b794f6',
-            top: '15%'
-        },
-        media: {
-            height: '26rem',
-            width: '26rem',
-        },
-        card: {
-            margin: '1.5rem 1rem',
-            borderRadius: '0.4rem',
-            width: '26rem',
-            backgroundColor: '#fff',
-            marginBottom: '1.5rem',
-            '&:hover': {
-                transform: 'scale(1.05, 1.05)'
-            }
-        },
-        formControl: {
-            width: '10%',
-            position: 'fixed',
-            minWidth: 120,
-            right: 0,
-            margin: '0 2rem'
-        },
-        chip: {
-            margin: 2,
-        },
-        chips: {
-            display: 'flex',
-            flexWrap: 'wrap',
-        },
-        select: {
-            backgroundColor: '#fff',
-        },
-        inputlabel: {
-            color: '#fff',
-            '&.Mui-focused': {
-                color: '#fff'
-            },
-        },
-    })
-)
+import { Grid, Paper, Card, Typography, CardContent, CardMedia, CardActionArea, Button, Input, FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, Chip, } from '@material-ui/core'
 
 const MenuProps = {
     PaperProps: {
@@ -85,7 +24,7 @@ const MenuProps = {
 };
 
 const Parties: FunctionComponent = () => {
-    const classes = useStyles();
+    const classes = partyStyles();
     const firebase = useContext(FirebaseContext);
 
     const [parties, setParties] = useState<Array<Party>>([])
@@ -122,6 +61,7 @@ const Parties: FunctionComponent = () => {
     })
 
     const today = new Date()
+    today.setDate(18);
 
     useEffect(() => {
         if (userLoc) {
