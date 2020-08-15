@@ -22,12 +22,12 @@ export default function NavBar() {
 
     const [redirect, setRedirect] = useState(false);
     const [tarUrl, settarUrl] = useState('');
-
-    let pathName = window.location.pathname;
+    const [pathName, setPathName] = useState(window.location.pathname)
 
     const handleClick = (target: string) => {
         setRedirect(true);
         settarUrl(target);
+        setPathName(target)
 
         const isPromoter = window.location.pathname.includes('promoters')
 
@@ -50,13 +50,13 @@ export default function NavBar() {
                         <Link style={{
                             textDecoration: 'none',
                             color: "#fff"
-                        }} to="/home">
+                        }} onClick={()=> handleClick('/home')} to="/home">
                             Partier
                         </Link>
                         <Link style={{
                             textDecoration: 'none',
                             color: "#212121"
-                        }} to="/promoters/console">
+                        }} onClick={()=> handleClick('/promoters/console')} to="/promoters/console">
                             Promoter Console
                         </Link>
                     </Breadcrumbs>
