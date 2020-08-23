@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
-import { makeStyles, Grid, Paper, Card, CardMedia, Avatar, Typography, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
+import { Grid, Paper, Avatar, Typography, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import FirebaseContext from '../Firebase/Context';
 import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import PhoneIcon from '@material-ui/icons/Phone';
 

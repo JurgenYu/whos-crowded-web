@@ -10,6 +10,7 @@ interface FirebaseContextInterface {
     signupWithEmailAndPasswd: (inputForm: inputFormInterface) => Promise<firebase.auth.UserCredential>,
     db: firebase.firestore.Firestore | null,
     storage: firebase.storage.Storage | null,
+    functions : firebase.functions.Functions | null,
 }
 
 export interface inputFormInterface {

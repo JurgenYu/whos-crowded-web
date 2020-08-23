@@ -7,6 +7,7 @@ import Home from './Pages/Home';
 import Login from './Pages/Login';
 import theme from './Util/theme'
 import Clubs from './Pages/Clubs'
+import Promoters from './Pages/PromotersPages/Promoters'
 import { MuiThemeProvider } from '@material-ui/core';
 import SignUp from './Pages/SignUp';
 import NavBar from './Components/NavBar/NavBar';
@@ -22,7 +23,7 @@ function App() {
       <MuiThemeProvider theme={theme}>
         <div style={{
           backgroundColor: '#424242',
-          position: 'fixed',
+          position: 'relative',
           minHeight: '100vh',
           width: '100%',
           height: '100%',
@@ -53,6 +54,9 @@ function App() {
               </Route>
               <Route path='/userprofile' exact>
                 <UserProfile />
+              </Route>
+              <Route path='/promoters' exact>
+                <Promoters />
               </Route>
               <Route path='/terms_conditions' exact>
                 <TermAndCondition />

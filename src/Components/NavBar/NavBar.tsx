@@ -56,7 +56,7 @@ export default function NavBar() {
                         <Link style={{
                             textDecoration: 'none',
                             color: "#212121"
-                        }} onClick={()=> handleClick('/promoters/console')} to="/promoters/console">
+                        }} onClick={()=> handleClick('/promoters')} to="/promoters">
                             Promoter Console
                         </Link>
                     </Breadcrumbs>

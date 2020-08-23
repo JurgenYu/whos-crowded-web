@@ -58,6 +58,8 @@ const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
 
     const storage = firebase.storage();
 
+    const functions = firebase.functions();
+
     return (
         <FirebaseContext.Provider
             value={{
@@ -69,6 +71,7 @@ const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
                 signupWithEmailAndPasswd: signupWithEmailAndPasswd,
                 db: db,
                 storage: storage,
+                functions: functions,
             }}
         >
             {children}

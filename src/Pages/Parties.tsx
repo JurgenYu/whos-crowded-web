@@ -3,7 +3,6 @@ import React, { FunctionComponent, useContext, useState, useEffect } from 'react
 import FirebaseContext from '../Firebase/Context'
 import partyImg from '../images/party-icon-png-21.jpg'
 import { Party, partyConverter } from '../Firebase/Converters/PartyConverter'
-import { API_KEY } from '../GoogleMaps/GooleMaps'
 import { firestore } from 'firebase'
 import { getDistanceFromLatLonInKm } from '../Util/DistanceCalc'
 import SearchIcon from '@material-ui/icons/Search';

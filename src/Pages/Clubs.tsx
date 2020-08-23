@@ -1,10 +1,7 @@
 import React, { FunctionComponent, useContext, useState, useEffect } from 'react'
-import { Grid, Paper, Card, GridList, CardHeader, GridListTile, Container, makeStyles, createStyles, Theme, Typography, CardContent, CardMedia, CardActionArea, TextField, Button, Input, List, ListItem, ListItemText, ListItemAvatar, Divider, Avatar, FormControl, InputLabel, Select, MenuItem, Checkbox, Chip } from '@material-ui/core'
+import { Grid, Paper, Typography, Button, Input, List, ListItem, ListItemText, Divider, FormControl, InputLabel, Select, MenuItem, Checkbox, Chip } from '@material-ui/core'
 import FirebaseContext from '../Firebase/Context'
-import partyImg from '../images/party-icon-png-21.jpg'
 import { Club, clubConverter } from '../Firebase/Converters/ClubConverter'
-import { API_KEY } from '../GoogleMaps/GooleMaps'
-import { resolve } from 'url'
 import { firestore } from 'firebase'
 import { getDistanceFromLatLonInKm } from '../Util/DistanceCalc'
 import SearchIcon from '@material-ui/icons/Search';
