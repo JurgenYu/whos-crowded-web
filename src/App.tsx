@@ -16,6 +16,7 @@ import UserProfile from './Pages/UserProfile';
 import TermAndCondition from './Pages/TermAndCondition';
 import Privacy from './Pages/Privacy';
 import Djs from './Pages/Djs';
+import PartyManagement from './Pages/PromotersPages/PartyManagement';
 
 function App() {
   return (
@@ -57,6 +58,9 @@ function App() {
               </Route>
               <Route path='/promoters' exact>
                 <Promoters />
+              </Route>
+              <Route path='/promoters/manageparties' exact>
+                <PartyManagement />
               </Route>
               <Route path='/terms_conditions' exact>
                 <TermAndCondition />

@@ -3,6 +3,7 @@ import * as firebase from 'firebase'
 
 interface FirebaseContextInterface {
     currentUser: firebase.User | null,
+    promoterId: string| null,
     authWithEmailAndPassWd: (inputForm: inputFormInterface) => Promise<firebase.auth.UserCredential>,
     userSignOut: () => void,
     authWithGoogle: () => Promise<firebase.auth.UserCredential>,

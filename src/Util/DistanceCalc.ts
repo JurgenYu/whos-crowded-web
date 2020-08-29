@@ -1,5 +1,5 @@
 export function getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number) {
-    var R = 6371; // Radius of the earth in km
+    var R = 3958.8; // Radius of the earth in km
     var dLat = deg2rad(lat2 - lat1);  // deg2rad below
     var dLon = deg2rad(lon2 - lon1);
     var a =
@@ -9,7 +9,7 @@ export function getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: numb
         ;
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c; // Distance in km
-    return Number((1.67 * d).toPrecision(4));
+    return Number((d).toPrecision(4));
 }
 
 function deg2rad(deg: number) {

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useState, useEffect } from 'react'
 
 import FirebaseContext from '../Firebase/Context'
-import partyImg from '../images/party-icon-png-21.jpg'
+
 import { Party, partyConverter } from '../Firebase/Converters/PartyConverter'
 import { firestore } from 'firebase'
 import { getDistanceFromLatLonInKm } from '../Util/DistanceCalc'
@@ -11,6 +11,7 @@ import PartyPopup from '../Components/PartyPopup/PartyPopup'
 import { partyStyles } from './styles/partiesStyles'
 
 import { Grid, Paper, Card, Typography, CardContent, CardMedia, CardActionArea, Button, Input, FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, Chip, } from '@material-ui/core'
+import PartyCard from '../Components/PartyCard/PartyCard'
 
 const MenuProps = {
     PaperProps: {
@@ -32,8 +33,6 @@ const Parties: FunctionComponent = () => {
     const [inputZip, setInputZip] = useState<string>('');
     const [submitZip, setSubmitZip] = useState<string | null>(null)
     const [selectedGenres, setSelectedGenres] = useState<string[]>([])
-    const [open, setOpen] = useState(false)
-    const [popupParty, setPopupParty] = useState<Party | null>(null)
 
     useEffect(() => {
         if (!userLoc) {
@@ -68,7 +67,7 @@ const Parties: FunctionComponent = () => {
                 .where('end_time', '>=', today)
                 .withConverter(partyConverter)
                 .get().then((doc) => {
-                    doc.forEach(element => {
+                    doc.forEach(async element => {
                         const newParty = element.data()
                         newParty.distance = getDistanceFromLatLonInKm(
                             userLoc.latitude,
@@ -78,14 +77,11 @@ const Parties: FunctionComponent = () => {
                         newParty.address = newParty.address.trimEnd();
                         newParty.city = newParty.city.trimEnd();
                         if (newParty.banner) {
-                            firebase?.storage?.ref().child(newParty.banner).getDownloadURL().then((url) => {
+                            await firebase?.storage?.ref().child(newParty.banner).getDownloadURL().then((url) => {
                                 newParty.banner = url;
-                                setParties(p => [...p, newParty])
                             });
                         }
-                        else {
-                            setParties(p => [...p, newParty])
-                        }
+                        setParties(p => [...p, newParty])
                     });
                 })
             setloading(false);
@@ -116,19 +112,9 @@ const Parties: FunctionComponent = () => {
         setSelectedGenres(event.target.value as string[]);
     };
 
-    const handleToggle = (p: Party) => {
-        setOpen(!open)
-        setPopupParty(p);
-    }
-
-    const handleClose = () => {
-        setOpen(false);
-        setPopupParty(null);
-    }
-
     return (
         <div>
-            {popupParty && <PartyPopup party={popupParty} open={open} handleClose={handleClose} />}
+            
             <Grid container justify='center'>
                 <Paper className={classes.paper}>
                     <form noValidate onSubmit={handleSubmit}>
@@ -191,30 +177,7 @@ const Parties: FunctionComponent = () => {
                             return each.genres.some(r => (selectedGenres.length > 0 ? selectedGenres : GENRES).indexOf(r) >= 0)
                         }).map((value, key) => {
                             return (
-                                <Card key={key} className={classes.card}>
-                                    <CardActionArea onClick={() => handleToggle(value)}>
-                                        <CardMedia
-                                            component='img'
-                                            className={classes.media}
-                                            src={value.banner}
-                                            alt={partyImg}
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2">
-                                                {value.title}
-                                            </Typography>
-                                            <Typography variant="body1" color="textPrimary" component="p">
-                                                {value.address + ", " + value.city + ", " + value.state}
-                                            </Typography>
-                                            <Typography variant="body2" color="textSecondary" component="p">
-                                                {value.distance + " Miles"}
-                                            </Typography>
-                                            <Typography variant="body2" color="textPrimary" component="p">
-                                                {value.start_time.toDate().toLocaleString() + ' - ' + value.end_time.toDate().toLocaleString()}
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
+                                <PartyCard party={value} key={key} />
                             )
                         })
                     }

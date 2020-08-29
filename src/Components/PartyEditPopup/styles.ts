@@ -1,10 +1,15 @@
 import { makeStyles } from "@material-ui/core";
+import theme from "../../Util/theme";
 
-export const reuestPromoterStylesStyles = makeStyles({
+export const useStyles = makeStyles({
     paper: {
         marginTop: '3rem',
         paddingTop: '0.5rem',
         width: '34.7rem'
+    },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
     },
     textField: {
         marginBottom: '1rem',

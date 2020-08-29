@@ -12,7 +12,7 @@ const firebaseConfig = {
     appId: "1:748794973025:web:1ae26acc25827cefb25320"
 };
 
-interface FirebaseProviderProps  {
+interface FirebaseProviderProps {
     children: ReactNode
 };
 
@@ -45,14 +45,24 @@ const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
         firebase.initializeApp(firebaseConfig);
     }
     const [currentUser, setCurrentUser] = useState<firebase.User | null>(null);
+    const [promoterId, setPromoterId] = useState<string | null>(null);
 
     useEffect(() => {
-        firebase.auth().onAuthStateChanged(() => {
-            setTimeout(() => {
-                setCurrentUser(firebase.auth().currentUser);
-            }, 10);
+        firebase.auth().onAuthStateChanged(async () => {
+            setCurrentUser(firebase.auth().currentUser);
         });
     }, []);
+
+    useEffect(()=>{
+        if (currentUser) {
+            firebase.firestore().collection('env/dev/users/')
+            .doc(currentUser?.toString()).get().then((doc) => {
+                if (doc.get('promoterid')) {
+                    setPromoterId(doc.get('promoterid'));
+                }
+            })
+        }
+    }, [currentUser])
 
     const db = firebase.firestore();
 
@@ -64,6 +74,7 @@ const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
         <FirebaseContext.Provider
             value={{
                 currentUser: currentUser,
+                promoterId: promoterId,
                 authWithEmailAndPassWd: authWithEmailAndPassWd,
                 userSignOut: userSignOut,
                 authWithGoogle: authWithGoogle,

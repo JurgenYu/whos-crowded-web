@@ -15,16 +15,21 @@ const useAvatarStyles = makeStyles({
         backgroundColor: '#fff',
     },
     button: {
-        width: '50px',
-        height: '50px',
+        width: '56px',
+        height: '56px',
         margin: '0 auto',
         borderRadius: '28px',
-        backgroundColor: '#fff',
+        backgroundColor: 'tansparent',
         color: '#616161',
         "&:hover": {
             backgroundColor: 'transparent'
         }
-    }
+    },
+    iconButton: {
+        width: '56px',
+        height: '56px',
+        borderRadius: '28px',
+    },
 });
 
 interface UserAvatarProps {
@@ -64,7 +69,7 @@ export default function UserAvatar(props: UserAvatarProps) {
         <div>
             {isLoggedin ?
                 <div>
-                    <IconButton disableRipple onClick={handleClick} className={classes.button}>
+                    <IconButton disableRipple onClick={handleClick} className={classes.iconButton}>
                         <Avatar
                             src={photoUrl ? photoUrl : undefined}
                             alt={userName ? userName : 'Menus'}
