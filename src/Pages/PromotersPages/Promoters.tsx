@@ -22,7 +22,7 @@ export default function Promoters() {
 
     useEffect(() => {
         if (userId) {
-            firebase?.db?.collection('env/dev/promoter_requests/')
+            firebase?.db?.collection('env/prod/promoter_requests/')
                 .where('uid', '==', userId).get().then((doc) => {
                     if (!doc.empty) {
                         setOnRequest(doc.docs[0].get('status'));

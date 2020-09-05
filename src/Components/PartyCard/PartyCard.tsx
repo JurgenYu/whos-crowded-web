@@ -91,7 +91,7 @@ export default function PartyCard(props: partyCardProps) {
                                         {party.start_time.toDate().toLocaleString()}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" component="p">
-                                        {'In' + formatDistanceToNow(party.start_time.toDate())}
+                                        {'In ' + formatDistanceToNow(party.start_time.toDate())}
                                     </Typography>
                                 </Grid>
                             </Grid>

@@ -166,6 +166,10 @@ const Clubs: FunctionComponent = () => {
                                                 <Typography component="span" variant="body2" className={classes.inline} color="textSecondary">
                                                     {'Phone: ' + value.phone}
                                                 </Typography>
+                                                <br/>
+                                                <Typography align='right' component="h1" variant="body2" className={classes.inline} color="textSecondary">
+                                                    {'Minimum Age: '+ value.min_age}
+                                                </Typography>
                                             </React.Fragment>
                                         }
                                     ></ListItemText>
