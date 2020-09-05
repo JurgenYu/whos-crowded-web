@@ -36,11 +36,11 @@ export const partyStyles = makeStyles((theme: Theme) =>
             }
         },
         formControl: {
-            width: '10%',
+            width: '16rem',
             position: 'fixed',
             minWidth: 120,
             right: 0,
-            margin: '0 2rem'
+            margin: '3.5rem'
         },
         chip: {
             margin: 2,
@@ -57,6 +57,13 @@ export const partyStyles = makeStyles((theme: Theme) =>
             '&.Mui-focused': {
                 color: '#fff'
             },
+        },
+        grid: {
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-around',
+            overflow: 'hidden',
+            backgroundColor: 'transparent',
         },
     })
 )

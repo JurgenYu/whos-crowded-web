@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { Party } from '../../Firebase/Converters/PartyConverter'
-import { Card, Typography, CardContent, CardMedia, CardActionArea, makeStyles, createStyles, Theme, } from '@material-ui/core'
+import { Card, Typography, CardContent, CardMedia, CardActionArea, makeStyles, createStyles, Theme, Avatar, Grid, Divider, } from '@material-ui/core'
 import partyImg from '../../images/party-icon-png-21.jpg'
 import PartyPopup from '../PartyPopup/PartyPopup'
+import EventIcon from '@material-ui/icons/Event';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import {formatDistanceToNow} from 'date-fns'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -12,10 +15,10 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         card: {
             margin: '1.5rem 1rem',
-            borderRadius: '0.4rem',
+            borderRadius: '1.7rem',
+            padding: '0px',
             width: '26rem',
             backgroundColor: '#fff',
-            marginBottom: '1.5rem',
             '&:hover': {
                 transform: 'scale(1.05, 1.05)'
             }
@@ -42,7 +45,7 @@ export default function PartyCard(props: partyCardProps) {
         setPopupParty(null);
     }
 
-    
+
     const classes = useStyles();
     const { party, key } = { ...props };
     return (
@@ -60,15 +63,39 @@ export default function PartyCard(props: partyCardProps) {
                         <Typography gutterBottom variant="h5" component="h2">
                             {party.title}
                         </Typography>
-                        <Typography variant="body1" color="textPrimary" component="p">
-                            {party.address + ", " + party.city + ", " + party.state}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {party.distance + " Miles"}
-                        </Typography>
-                        <Typography variant="body2" color="textPrimary" component="p">
-                            {party.start_time.toDate().toLocaleString() + ' - ' + party.end_time.toDate().toLocaleString()}
-                        </Typography>
+                        <div style={{marginTop: '1rem',display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                            <Grid spacing={2}  md container direction='row' alignContent='center'>
+                                <Grid item>
+                                    <Avatar>
+                                        <LocationOnIcon />
+                                    </Avatar>
+                                </Grid>
+                                <Grid item>
+                                    <Typography variant="body1" color="textPrimary" component="p">
+                                        {party.address + ", " + party.city + ", " + party.state}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        {party.distance + " Miles"}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                            <div style={{margin: '0.5rem'}}></div>
+                            <Grid spacing={2} container direction='row' alignContent='center'>
+                                <Grid item>
+                                    <Avatar>
+                                        <EventIcon />
+                                    </Avatar>
+                                </Grid>
+                                <Grid item>
+                                    <Typography variant="body1" color="textPrimary" component="p">
+                                        {party.start_time.toDate().toLocaleString()}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        {'In' + formatDistanceToNow(party.start_time.toDate())}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        </div>
                     </CardContent>
                 </CardActionArea>
             </Card>

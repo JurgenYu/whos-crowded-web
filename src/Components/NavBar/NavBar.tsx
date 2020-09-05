@@ -9,13 +9,16 @@ import { styled, Grid, Breadcrumbs, Typography } from '@material-ui/core';
 import Header from '../../images/whos_crowded_header.png'
 
 const StyledButton = styled(Button)({
+    color: '#fff',
+    borderColor: '#c8c8c8',
+    width: '4.5rem',
+    '&:hover': {
+        borderColor: "#fff",
+    },
     marginRight: '1.25rem',
     marginLeft: '1.25rem',
     outlineColor: '#c8c8c8',
     backgroundColor: 'transparent',
-    "&:hover": {
-        borderColor: "#fff",
-    }
 })
 
 export default function NavBar() {
@@ -50,13 +53,7 @@ export default function NavBar() {
                         <Link style={{
                             textDecoration: 'none',
                             color: "#fff"
-                        }} onClick={()=> handleClick('/home')} to="/home">
-                            Partier
-                        </Link>
-                        <Link style={{
-                            textDecoration: 'none',
-                            color: "#212121"
-                        }} onClick={()=> handleClick('/promoters')} to="/promoters">
+                        }} onClick={() => handleClick('/promoters')} to="/promoters">
                             Promoter Console
                         </Link>
                     </Breadcrumbs>

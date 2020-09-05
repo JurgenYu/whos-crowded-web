@@ -8,7 +8,6 @@ import { homeStyles } from './styles/homeStyles'
 
 const Home: FunctionComponent = () => {
     const classes = homeStyles();
-    console.log(1)
     return (
         <React.Fragment>
             <Grid container justify='center'>

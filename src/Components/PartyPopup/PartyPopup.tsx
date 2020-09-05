@@ -1,6 +1,6 @@
 import React from 'react'
 import { Party } from '../../Firebase/Converters/PartyConverter'
-import { makeStyles, createStyles, Theme, Backdrop, CircularProgress, Card, CardActionArea, CardMedia, Typography, Divider, CardContent, Paper, Fab } from '@material-ui/core';
+import { makeStyles, createStyles, Theme, Backdrop, CircularProgress, Card, CardActionArea, CardMedia, Typography, Divider, CardContent, Paper, Fab, Grid } from '@material-ui/core';
 import partyImg from '../../images/party-icon-png-21.jpg'
 import { Link } from 'react-router-dom';
 import NavToMapFab from '../NavToMapFab/NavToMapFab';
@@ -23,10 +23,11 @@ const useStyles = makeStyles((theme: Theme) =>
             width: 'auto',
         },
         card: {
+            overflow: 'hidden',
             display: 'flex',
             flexDirection: 'row',
             margin: '1.5rem 1rem',
-            borderRadius: '0.4rem',
+            borderRadius: '2rem',
             width: 'auto',
             backgroundColor: '#fff',
             marginBottom: '1.5rem',
@@ -39,48 +40,50 @@ export default function PartyPopup({ party, open, handleClose }: partyPopupProps
     return (
         <div>
             <Backdrop transitionDuration={250} className={classes.backdrop} open={open} onClick={handleClose}>
-                <Paper onClick={e => e.stopPropagation()} className={classes.card}>
-                    <img className={classes.media} src={party.banner} alt={partyImg}></img>
-                    <div style={{
-                        margin: '2rem 2rem'
-                    }}>
-                        <Typography gutterBottom variant="h4" component="h4">
-                            {party.title}
-                        </Typography>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {party.description}
-                        </Typography>
-                        <Divider light />
-                        <Typography variant="body1" color="textPrimary" component="p">
-                            {party.address + ", " + party.city + ", " + party.state}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {party.distance + " Miles"}
-                        </Typography>
-                        <Divider />
-                        <Typography variant="h6" color="textPrimary" component="h3">
-                            {'Start: ' + party.start_time.toDate().toLocaleString()}
-                        </Typography>
-                        <Typography variant="h6" color="textPrimary" component="h3">
-                            {'End: ' + party.end_time.toDate().toLocaleString()}
-                        </Typography>
-                        <Divider />
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {party.genres.join(' ')}
-                        </Typography>
+                <Grid container justify='center'>
+                    <Paper onClick={e => e.stopPropagation()} className={classes.card}>
+                        <img className={classes.media} src={party.banner} alt={partyImg}></img>
                         <div style={{
-                            margin: '1rem auto'
+                            margin: '2rem 2rem'
                         }}>
-                            {party.point &&
-                                <NavToMapFab
-                                    address={party.address}
-                                    city={party.city}
-                                    state={party.state}
-                                    point={party.point}
-                                />}
+                            <Typography gutterBottom variant="h4" component="h4">
+                                {party.title}
+                            </Typography>
+                            <Typography gutterBottom variant="h5" component="h2">
+                                {party.description}
+                            </Typography>
+                            <Divider light />
+                            <Typography variant="body1" color="textPrimary" component="p">
+                                {party.address + ", " + party.city + ", " + party.state}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                {party.distance + " Miles"}
+                            </Typography>
+                            <Divider />
+                            <Typography variant="h6" color="textPrimary" component="h3">
+                                {'Start: ' + party.start_time.toDate().toLocaleString()}
+                            </Typography>
+                            <Typography variant="h6" color="textPrimary" component="h3">
+                                {'End: ' + party.end_time.toDate().toLocaleString()}
+                            </Typography>
+                            <Divider />
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                {party.genres.join(' ')}
+                            </Typography>
+                            <div style={{
+                                margin: '1rem auto'
+                            }}>
+                                {party.point &&
+                                    <NavToMapFab
+                                        address={party.address}
+                                        city={party.city}
+                                        state={party.state}
+                                        point={party.point}
+                                    />}
+                            </div>
                         </div>
-                    </div>
-                </Paper>
+                    </Paper>
+                </Grid>
             </Backdrop>
         </div>
     )

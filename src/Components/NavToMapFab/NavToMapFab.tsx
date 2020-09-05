@@ -1,5 +1,5 @@
 import React from 'react'
-import { Fab, makeStyles, Theme } from '@material-ui/core'
+import { Fab, makeStyles, Theme, Button } from '@material-ui/core'
 import NavigationIcon from '@material-ui/icons/Navigation';
 import theme from '../../Util/theme';
 
@@ -11,6 +11,10 @@ export interface NavToMapFabProps {
 }
 
 const useStyles = makeStyles({
+    button: {
+        boxShadow: undefined,
+        borderRadius: '2rem',
+    },
     extendedIcon: {
         marginRight: theme.spacing(1),
     },
@@ -23,15 +27,15 @@ export default function NavToMapFab(props: NavToMapFabProps) {
     return (
         <div>
             {props.address ?
-                <Fab target="_blank" href={"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(props.address + ", " + props.city + ", " + props.state)} variant="extended">
+                <Button size='large' disableElevation variant='contained' className={classes.button} target="_blank" href={"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(props.address + ", " + props.city + ", " + props.state)} >
                     <NavigationIcon className={classes.extendedIcon} />
-                            Show On Map
-            </Fab>
+                            MAP
+            </Button>
                 : (
-                    <Fab target="_blank" href={"https://www.google.com/maps/search/?api=1&query=" + String(props.point?.latitude.toString() + ", " + props.point?.longitude.toString())} variant="extended">
+                    <Button size='large' disableElevation variant='contained' className={classes.button} target="_blank" href={"https://www.google.com/maps/search/?api=1&query=" + String(props.point?.latitude.toString() + ", " + props.point?.longitude.toString())} >
                         <NavigationIcon className={classes.extendedIcon} />
-                            Show On Map
-                    </Fab>
+                            MAP
+                    </Button>
                 )
             }
         </div>

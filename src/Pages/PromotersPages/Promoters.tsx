@@ -14,7 +14,7 @@ export default function Promoters() {
     const classes = promoterStyles();
     const firebase = useContext(FirebaseContext)
     const userId = firebase?.currentUser?.uid;
-    const promoterId = '7L6aIMkAwnQwjjgtR9fA';
+    const promoterId = firebase?.promoterId;
 
     const [onRequest, setOnRequest] = useState<string | null>(null)
 

@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import FirebaseContext from '../../Firebase/Context'
 import { partyConverter, Party } from '../../Firebase/Converters/PartyConverter';
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Button, Popover } from '@material-ui/core';
 import PartyCard from '../../Components/PartyCard/PartyCard';
 import { Redirect } from 'react-router-dom';
 import PartyEditPopup from '../../Components/PartyEditPopup/PartyEditPopup';
 
 export default function PartyManagement() {
     const firebase = useContext(FirebaseContext);
-    //const promoterId = firebase?.promoterId;
-    const promoterId = '7L6aIMkAwnQwjjgtR9fA';
+    const promoterId = firebase?.promoterId;
 
     const [parties, setParties] = useState<Array<Party>>([])
     const [loading, setLoading] = useState(false);
@@ -47,20 +46,21 @@ export default function PartyManagement() {
 
     return (
         <div>
-            {open && <PartyEditPopup open={open} handleClose={handleClose}/>}
+            {open && <PartyEditPopup open={open} handleClose={handleClose} />}
             {!promoterId && <Redirect to='/promoters' />}
             <Grid container justify='center'>
                 <Button
                     variant='contained'
-                    onClick={handleToggle}>
+                    onClick={handleToggle}
+                >
                     New Party
-                    </Button>
+                </Button>
             </Grid>
             <div style={{ maxWidth: '80%', display: 'table', margin: '0 auto', paddingBottom: '3rem' }}>
                 <Grid
                     direction='row'
                     container
-                    justify='center'>
+                    justify='space-evenly'>
                     {!loading &&
                         parties.map((value, key) => {
                             return (

@@ -21,9 +21,8 @@ import PartyManagement from './Pages/PromotersPages/PartyManagement';
 function App() {
   return (
     <React.Fragment>
-      <MuiThemeProvider theme={theme}>
         <div style={{
-          backgroundColor: '#424242',
+          backgroundColor: '#757575',
           position: 'relative',
           minHeight: '100vh',
           width: '100%',
@@ -85,7 +84,6 @@ function App() {
             <a style={{ color: '#fff', textDecoration: 'none' }} href='privacy'>{'Privacy Policy'}</a>
           </div>
         </div>
-      </MuiThemeProvider>
     </React.Fragment>
   );
 }

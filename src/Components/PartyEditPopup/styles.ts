@@ -2,6 +2,15 @@ import { makeStyles } from "@material-ui/core";
 import theme from "../../Util/theme";
 
 export const useStyles = makeStyles({
+    root: {
+        width:"640px",
+    },
+    timePicker: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        margin: '1rem',
+    },
     paper: {
         marginTop: '3rem',
         paddingTop: '0.5rem',

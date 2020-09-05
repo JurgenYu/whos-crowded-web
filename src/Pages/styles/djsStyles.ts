@@ -49,7 +49,7 @@ export const djsStyles = makeStyles((theme: Theme) =>
             width: '35rem',
         },
         formControl: {
-            width: '10%',
+            width: '16rem',
             position: 'fixed',
             minWidth: 120,
             right: 0,

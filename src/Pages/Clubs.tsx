@@ -9,6 +9,7 @@ import { GENRES } from '../Util/Genres'
 import NavToMapFab from '../Components/NavToMapFab/NavToMapFab'
 
 import { clubsStyles } from './styles/clubsStyles'
+import GenreChip from '../Components/GenreChip'
 
 const MenuProps = {
     PaperProps: {
@@ -29,7 +30,7 @@ const Clubs: FunctionComponent = () => {
     const [userLoc, setUserLoc] = useState<firebase.firestore.GeoPoint | null>(null);
     const [inputZip, setInputZip] = useState<string>('');
     const [submitZip, setSubmitZip] = useState<string | null>(null)
-    const [selectedGenres, setSelectedGenres] = useState<string[]>([])
+    const [genres, setGenres] = useState(new Array<boolean>(GENRES.length).fill(false));
 
     useEffect(() => {
         if (!userLoc) {
@@ -93,8 +94,11 @@ const Clubs: FunctionComponent = () => {
         }
     }, [submitZip])
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setSelectedGenres(event.target.value as string[]);
+    const handleChange = (key: number) => {
+        const newGenres = [...genres];
+        newGenres[key] = !newGenres[key];
+        setGenres(newGenres);
+        console.log(genres);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -120,52 +124,21 @@ const Clubs: FunctionComponent = () => {
                             fullWidth
                             className={classes.input}
                         />
-                        <Button endIcon={<SearchIcon />} className={classes.button} type='submit'>lol</Button>
+                        <Button endIcon={<SearchIcon />} className={classes.button} type='submit'></Button>
                     </form>
                 </Paper>
             </Grid>
             <div style={{ maxWidth: '80%', justifyContent: 'center', display: 'table', margin: 'auto', paddingBottom: "3rem" }}>
-                <FormControl className={classes.formControl}>
-                    <InputLabel shrink disableAnimation className={classes.inputlabel} id="demo-mutiple-chip-label">Select Genres</InputLabel>
-                    <Select
-                        labelId="demo-mutiple-chip-label"
-                        id="demo-mutiple-chip"
-                        multiple
-                        value={selectedGenres}
-                        onChange={handleChange}
-                        input={<Input disableUnderline className={classes.select} id="select-multiple-chip" />}
-                        renderValue={(selected) => (
-                            <div className={classes.chips}>
-                                {(selected as string[]).map((value) => (
-                                    <Chip key={value} label={value} className={classes.chip} />
-                                ))}
-                            </div>
-                        )}
-                        MenuProps={MenuProps}
-                    >
-                        {GENRES.map((value, key) => {
-                            return (
-                                <MenuItem
-                                    key={key}
-                                    value={value}
-                                >
-                                    <Checkbox
-                                        value={value}
-                                        checked={selectedGenres.indexOf(value) > -1}
-                                    />
-                                    <ListItemText primary={value} />
-                                </MenuItem>
-                            )
-                        }
-                        )}
-                    </Select>
-                </FormControl>
+                <div className={classes.formControl}>
+                    <GenreChip color='#fff' genres={genres} handleClick={handleChange} />
+                </div>
                 <List className={classes.root}>
                     {clubs.sort((a, b) => (a.distance - b.distance)).filter((each) => {
-                        return each.genres.some(r => (selectedGenres.length > 0 ? selectedGenres : GENRES).indexOf(r) >= 0)
+                        return each.genres.some(r => genres[GENRES.indexOf(r)]) || !genres.some(r => r)
                     }).map((value, key) => {
                         return (
                             <div>
+                                {key > 0 && <Divider variant="fullWidth" component="li" />}
                                 <ListItem alignItems="flex-start">
                                     <ListItemText
                                         className={classes.listItemText}
@@ -216,9 +189,7 @@ const Clubs: FunctionComponent = () => {
                                             />}
                                     </div>
                                 </ListItem>
-                                <Divider variant="fullWidth" component="li" />
                             </div>
-
                         )
                     })}
                 </List>
