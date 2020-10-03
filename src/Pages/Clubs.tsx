@@ -10,6 +10,7 @@ import NavToMapFab from '../Components/NavToMapFab/NavToMapFab'
 
 import { clubsStyles } from './styles/clubsStyles'
 import GenreChip from '../Components/GenreChip'
+import ClubCard from '../Components/ClubCard/ClubCard'
 
 const MenuProps = {
     PaperProps: {
@@ -132,8 +133,9 @@ const Clubs: FunctionComponent = () => {
                 <div className={classes.formControl}>
                     <GenreChip color='#fff' genres={genres} handleClick={handleChange} />
                 </div>
+                <ClubCard/>
                 <List className={classes.root}>
-                    {clubs.sort((a, b) => (a.distance - b.distance)).filter((each) => {
+                    {clubs.slice(10).sort((a, b) => (a.distance - b.distance)).filter((each) => {
                         return each.genres.some(r => genres[GENRES.indexOf(r)]) || !genres.some(r => r)
                     }).map((value, key) => {
                         return (
