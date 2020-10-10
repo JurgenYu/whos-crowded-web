@@ -97,7 +97,7 @@ export default function PartyPopup({ party, open, handleClose }: partyPopupProps
                                         point={party.point}
                                     />}
                                 <br/>
-                                <Button variant='contained' href='https://zvezda.cc/djprofile'> Promoter of This Party</Button>
+                                <a href='/djprofile'> Promoter of This Party</a>
                             </div>
                         </div>
                     </Paper>
