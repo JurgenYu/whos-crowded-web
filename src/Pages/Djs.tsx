@@ -9,6 +9,8 @@ import { GENRES } from '../Util/Genres';
 
 import { djsStyles } from './styles/djsStyles'
 import GenreChip from '../Components/GenreChip';
+import { Masonry } from 'masonic';
+import DjCard from '../Components/DJCard/DjCard';
 
 const MenuProps = {
     PaperProps: {
@@ -126,53 +128,31 @@ export default function Djs() {
                     </form>
                 </Paper>
             </Grid>
-            <div style={{ maxWidth: '80%', justifyContent: 'center', display: 'table', margin: 'auto', paddingBottom: "3rem" }}>
+            <div style={{
+                maxWidth: '75%',
+                paddingRight: '16rem',
+                // justifyContent: 'center',
+                // display: 'table',
+                margin: 'auto',
+                paddingBottom: "3rem"
+            }}>
                 <div className={classes.formControl}>
                     <GenreChip color='#fff' genres={genres} handleClick={handleChange} />
                 </div>
-                <List className={classes.root}>
-                    {djs.sort((a, b) => (a.distance - b.distance)).filter((each) => {
+                <Masonry
+                    // Provides the data for our grid items
+                    items={djs.sort((a, b) => (a.distance - b.distance)).filter((each) => {
                         return each.genres.some(r => genres[GENRES.indexOf(r)]) || !genres.some(r => r)
-                    }).map((value, key) => {
-                        return (
-                            <div>
-                                {key > 0 && <Divider variant="fullWidth" component="li" />}
-                                <ListItem alignItems="flex-start">
-                                    <ListItemText
-                                        className={classes.listItemText}
-                                        primary={value.name}
-                                        secondary={
-                                            <Typography align='right' component="h1" variant="body2" className={classes.inline} color="textSecondary">
-                                                {value.about}
-                                            </Typography>
-                                        }
-                                    >
-                                    </ListItemText>
-                                    <ListItemText
-                                        className={classes.listItemText2}
-                                        primary={value.distance + "Miles"}
-                                        secondary={
-                                            <React.Fragment>
-                                                <Typography component="span" variant="body2" className={classes.inline} color="textSecondary">
-                                                    {value.city + ', ' + value.state}
-                                                </Typography>
-                                                <br />
-                                                <Typography component="span" variant="body2" className={classes.inline} color="textSecondary">
-                                                    {'Genres: ' + value.genres.join(' ')}
-                                                </Typography>
-                                                <br />
-                                                <Typography component="span" variant="body2" className={classes.inline} color="textSecondary">
-                                                    {'Phone: ' + value.phone}
-                                                </Typography>
-                                            </React.Fragment>
-                                        }
-                                    ></ListItemText>
-                                </ListItem>
-                            </div>
-
-                        )
                     })}
-                </List>
+                    // Adds 8px of space between the grid cells
+                    columnGutter={8}
+                    // Sets the minimum column width to 172px
+                    columnWidth={252}
+                    // Pre-renders 5 windows worth of content
+                    overscanBy={5}
+                    // This is the grid item component
+                    render={({ index, data, width }) => (<DjCard value={data} key={index} />)}
+                />
             </div>
         </div>
     )

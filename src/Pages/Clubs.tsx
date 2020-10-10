@@ -1,16 +1,19 @@
 import React, { FunctionComponent, useContext, useState, useEffect } from 'react'
-import { Grid, Paper, Typography, Button, Input, List, ListItem, ListItemText, Divider, FormControl, InputLabel, Select, MenuItem, Checkbox, Chip } from '@material-ui/core'
+import { Grid, Paper, Typography, Button, Input, List, ListItem, ListItemText, Divider, FormControl, InputLabel, Select, MenuItem, Checkbox, Chip, StyleRules } from '@material-ui/core'
 import FirebaseContext from '../Firebase/Context'
 import { Club, clubConverter } from '../Firebase/Converters/ClubConverter'
 import { firestore } from 'firebase'
 import { getDistanceFromLatLonInKm } from '../Util/DistanceCalc'
 import SearchIcon from '@material-ui/icons/Search';
+import LazyLoad from 'react-lazyload';
 import { GENRES } from '../Util/Genres'
-import NavToMapFab from '../Components/NavToMapFab/NavToMapFab'
+import { AutoSizer, Grid as VirtualGrid } from 'react-virtualized'
+import { Masonry } from "masonic";
 
 import { clubsStyles } from './styles/clubsStyles'
 import GenreChip from '../Components/GenreChip'
 import ClubCard from '../Components/ClubCard/ClubCard'
+import { render } from '@testing-library/react'
 
 const MenuProps = {
     PaperProps: {
@@ -95,6 +98,10 @@ const Clubs: FunctionComponent = () => {
         }
     }, [submitZip])
 
+    // useEffect(()=>{
+    //     setRederList()
+    // }, [clubs, genres])
+
     const handleChange = (key: number) => {
         const newGenres = [...genres];
         newGenres[key] = !newGenres[key];
@@ -107,8 +114,6 @@ const Clubs: FunctionComponent = () => {
         console.log(inputZip)
         setSubmitZip(inputZip);
     }
-
-    console.log(clubs)
 
     return (
         <div>
@@ -129,76 +134,33 @@ const Clubs: FunctionComponent = () => {
                     </form>
                 </Paper>
             </Grid>
-            <div style={{ maxWidth: '80%', justifyContent: 'center', display: 'table', margin: 'auto', paddingBottom: "3rem" }}>
+            <div style={{
+                maxWidth: '75%',
+                paddingRight: '16rem',
+                // justifyContent: 'space-evenly',
+                // display: 'flex',
+                // flexWrap: 'wrap',
+                // flexDirection: 'row',
+                margin: 'auto',
+                // paddingBottom: "3rem"
+            }}>
                 <div className={classes.formControl}>
                     <GenreChip color='#fff' genres={genres} handleClick={handleChange} />
                 </div>
-                <ClubCard/>
-                <List className={classes.root}>
-                    {clubs.slice(10).sort((a, b) => (a.distance - b.distance)).filter((each) => {
+                <Masonry
+                    // Provides the data for our grid items
+                    items={clubs.sort((a, b) => (a.distance - b.distance)).filter((each) => {
                         return each.genres.some(r => genres[GENRES.indexOf(r)]) || !genres.some(r => r)
-                    }).map((value, key) => {
-                        return (
-                            <div>
-                                {key > 0 && <Divider variant="fullWidth" component="li" />}
-                                <ListItem alignItems="flex-start">
-                                    <ListItemText
-                                        className={classes.listItemText}
-                                        primary={value.name}
-                                        secondary={
-                                            <Typography align='right' component="h1" variant="body2" className={classes.inline} color="textSecondary">
-                                                {value.description}
-                                            </Typography>
-                                        }
-                                    >
-                                    </ListItemText>
-                                    <ListItemText
-                                        className={classes.listItemText2}
-                                        primary={value.distance + "Miles"}
-                                        secondary={
-                                            <React.Fragment>
-                                                <Typography component="span" variant="body2" className={classes.inline} color="textSecondary">
-                                                    {value.address + ', ' + value.city + ', ' + value.state}
-                                                </Typography>
-                                                <br />
-                                                <Typography component="span" variant="body2" className={classes.inline} color="textSecondary">
-                                                    {'Genres: ' + value.genres.join(' ')}
-                                                </Typography>
-                                                <br />
-                                                <Typography component="span" variant="body2" className={classes.inline} color="textSecondary">
-                                                    {'Phone: ' + value.phone}
-                                                </Typography>
-                                                <br/>
-                                                <Typography align='right' component="h1" variant="body2" className={classes.inline} color="textSecondary">
-                                                    {'Minimum Age: '+ value.min_age}
-                                                </Typography>
-                                            </React.Fragment>
-                                        }
-                                    ></ListItemText>
-                                    <div style={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'center',
-                                        position: 'relative',
-                                        right: '0%',
-                                        height: 'auto',
-                                        margin: '0 auto',
-                                        width: '16rem',
-                                        alignContent: 'center'
-                                    }}>
-                                        {value.point &&
-                                            <NavToMapFab
-                                                address={value.address}
-                                                city={value.city}
-                                                state={value.state}
-                                                point={value.point}
-                                            />}
-                                    </div>
-                                </ListItem>
-                            </div>
-                        )
                     })}
-                </List>
+                    // Adds 8px of space between the grid cells
+                    columnGutter={8}
+                    // Sets the minimum column width to 172px
+                    columnWidth={240}
+                    // Pre-renders 5 windows worth of content
+                    overscanBy={5}
+                    // This is the grid item component
+                    render={({index, data, width})=>(<ClubCard value={data} key={index}/>)}
+                />
             </div>
         </div>
     )

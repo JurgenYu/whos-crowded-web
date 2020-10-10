@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Party } from '../../Firebase/Converters/PartyConverter'
-import { makeStyles, createStyles, Theme, Backdrop, CircularProgress, Card, CardActionArea, CardMedia, Typography, Divider, CardContent, Paper, Fab, Grid } from '@material-ui/core';
+import { makeStyles, createStyles, Theme, Backdrop, CircularProgress, Card, CardActionArea, CardMedia, Typography, Divider, CardContent, Paper, Fab, Grid, Button } from '@material-ui/core';
 import partyImg from '../../images/party-icon-png-21.jpg'
 import { Link } from 'react-router-dom';
 import NavToMapFab from '../NavToMapFab/NavToMapFab';
+import FirebaseContext from '../../Firebase/Context';
 
 
 export interface partyPopupProps {
@@ -37,6 +38,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function PartyPopup({ party, open, handleClose }: partyPopupProps) {
     const classes = useStyles();
+    const firebase = useContext(FirebaseContext)
+    const db = firebase?.db;
+
+    const [promoter, setPromoter] = useState<string|null>(null)
+
+    // useEffect(() => {
+    //     if (party.promoterid)
+    //     return () => {
+    //         cleanup
+    //     }
+    // }, [input])
+
     return (
         <div>
             <Backdrop transitionDuration={250} className={classes.backdrop} open={open} onClick={handleClose}>
@@ -53,6 +66,9 @@ export default function PartyPopup({ party, open, handleClose }: partyPopupProps
                                 {party.description}
                             </Typography>
                             <Divider light />
+                            <Typography gutterBottom variant="h5" component="h2">
+                                {party.promoterid}
+                            </Typography>
                             <Typography variant="body1" color="textPrimary" component="p">
                                 {party.address + ", " + party.city + ", " + party.state}
                             </Typography>
@@ -80,6 +96,8 @@ export default function PartyPopup({ party, open, handleClose }: partyPopupProps
                                         state={party.state}
                                         point={party.point}
                                     />}
+                                <br/>
+                                <Button variant='contained' href='/djprofile'> Promoter of This Party</Button>
                             </div>
                         </div>
                     </Paper>

@@ -45,7 +45,7 @@ export default function NavBar() {
             {redirect && <Redirect to={tarUrl} />}
             <div className='nav-bar-container'>
                 <div className='nav-header'>
-                    <img width='45%' src={Header} alt="Broken"></img>
+                    <img width='90%' src={Header} alt="Broken"></img>
                 </div>
                 <div className='nav-avatar'>
                     <UserAvatar onClick={handleClick} />

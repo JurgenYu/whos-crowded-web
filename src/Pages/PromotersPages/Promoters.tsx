@@ -34,46 +34,47 @@ export default function Promoters() {
     return (
         <div>
             {ready ?
-                promoterId ?
-                    <Grid container justify='center'>
-                        <Paper>
-                            <Box display="flex" flexDirection='column' justifyContent='space-between' p={3}>
-                                <Button
-                                    className={classes.button}
-                                    component={Link}
-                                    to='/promoters/manageparties'
-                                    variant="contained"
-                                    disableTouchRipple
-                                    startIcon={<img alt='' src={partyIcon}></img>}
-                                    endIcon={<KeyboardArrowRightIcon />}
-                                >
-                                    Your Parties
-                        </Button>
-                                <Button
-                                    className={classes.button}
-                                    variant="contained"
-                                    disableTouchRipple
-                                    startIcon={<img alt='' src={crowdIcon}></img>}
-                                    endIcon={<KeyboardArrowRightIcon />}
-                                >
-                                    Your CROWDs
-                        </Button>
-                                <Button
-                                    className={classes.button}
-                                    variant="contained"
-                                    disableTouchRipple
-                                    startIcon={<img alt='' src={djIcon}></img>}
-                                    endIcon={<KeyboardArrowRightIcon />}
-                                >
-                                    Dj Panel
-                        </Button>
-                            </Box>
-                        </Paper>
-                    </Grid>
-                    : onRequest ? <h1>{onRequest}</h1>
-
-                        : <RequestPromoter />
-                : <h1>Please Wait</h1>}
+                userId ?
+                    promoterId ?
+                        <Grid container justify='center'>
+                            <Paper>
+                                <Box display="flex" flexDirection='column' justifyContent='space-between' p={3}>
+                                    <Button
+                                        className={classes.button}
+                                        component={Link}
+                                        to='/promoters/manageparties'
+                                        variant="contained"
+                                        disableTouchRipple
+                                        startIcon={<img alt='' src={partyIcon}></img>}
+                                        endIcon={<KeyboardArrowRightIcon />}
+                                    >
+                                        Your Parties
+                            </Button>
+                                    <Button
+                                        className={classes.button}
+                                        variant="contained"
+                                        disableTouchRipple
+                                        startIcon={<img alt='' src={crowdIcon}></img>}
+                                        endIcon={<KeyboardArrowRightIcon />}
+                                    >
+                                        Your CROWDs
+                            </Button>
+                                    <Button
+                                        className={classes.button}
+                                        variant="contained"
+                                        disableTouchRipple
+                                        startIcon={<img alt='' src={djIcon}></img>}
+                                        endIcon={<KeyboardArrowRightIcon />}
+                                    >
+                                        Dj Panel
+                            </Button>
+                                </Box>
+                            </Paper>
+                        </Grid>
+                        : onRequest ? <h1>{onRequest}</h1> : <RequestPromoter />
+                    : <h1>Please Wait</h1>
+                : <h1>Please Login</h1>
+            }
         </div>
     )
 }

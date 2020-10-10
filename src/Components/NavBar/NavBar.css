@@ -27,9 +27,9 @@
 
 .nav-header {
     position: absolute;
-    left: calc(50% - 31.5rem);
+    left: calc(50% - 43.5rem);
     top: 50%;
-    margin-top: 0.5rem;
+    margin-top: -0.5rem;
     align-items: center;
 }
 

@@ -17,6 +17,8 @@ import TermAndCondition from './Pages/TermAndCondition';
 import Privacy from './Pages/Privacy';
 import Djs from './Pages/Djs';
 import PartyManagement from './Pages/PromotersPages/PartyManagement';
+import CROWADS from './Pages/CROWADS';
+import DjProfile from './Pages/DjProfile';
 
 function App() {
   return (
@@ -51,6 +53,12 @@ function App() {
               </Route>
               <Route path='/djs' exact>
                 <Djs />
+              </Route>
+              <Route path='/crowds' exact>
+                <CROWADS />
+              </Route>
+              <Route path='/djprofile' exact>
+                <DjProfile />
               </Route>
               <Route path='/userprofile' exact>
                 <UserProfile />

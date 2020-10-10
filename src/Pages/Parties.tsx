@@ -13,6 +13,7 @@ import { partyStyles } from './styles/partiesStyles'
 import { Grid, Paper, Card, Typography, CardContent, CardMedia, CardActionArea, Button, Input, FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, Chip, GridList, GridListTile, } from '@material-ui/core'
 import PartyCard from '../Components/PartyCard/PartyCard'
 import GenreChip from '../Components/GenreChip'
+import { Masonry } from 'masonic'
 
 const MenuProps = {
     PaperProps: {
@@ -137,24 +138,32 @@ const Parties: FunctionComponent = () => {
             </Grid>
             <div style={{
                 maxWidth: '75%', 
-                display: 'flex',
+                // display: 'flex',
                 paddingRight: '16rem',
-                flexWrap: 'wrap',
-                flexDirection: 'row',
-                justifyContent: 'space-evenly', margin: '0 auto', paddingBottom: '3rem'
+                // flexWrap: 'wrap',
+                // flexDirection: 'row',
+                // justifyContent: 'space-evenly', 
+                margin: 'auto', 
+                paddingBottom: '3rem'
             }}>
                 <div className={classes.formControl}>
                     <GenreChip color='#fff' genres={genres} handleClick={handleChange}/>
                 </div>
                 {!loading &&
-                    parties.sort((a, b) => (a.distance - b.distance)).filter((each) => {
+                    <Masonry
+                    // Provides the data for our grid items
+                    items={parties.sort((a, b) => (a.distance - b.distance)).filter((each) => {
                         return each.genres.some(r => genres[GENRES.indexOf(r)]) || !genres.some(r=>r)
-                    }).map((value, key) => {
-                        return (
-                            <PartyCard party={value} key={key} />
-
-                        )
-                    })
+                    })}
+                    // Adds 8px of space between the grid cells
+                    columnGutter={8}
+                    // Sets the minimum column width to 172px
+                    columnWidth={416}
+                    // Pre-renders 5 windows worth of content
+                    overscanBy={5}
+                    // This is the grid item component
+                    render={({index, data, width})=>(<PartyCard party={data} key={index}/>)}
+                />
                 }
             </div>
         </div>
